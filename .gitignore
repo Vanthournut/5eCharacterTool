@@ -31,5 +31,8 @@
 *.out
 *.app
 
+# VS Code Settings
+.vscode
+
 # Build Folder
 build/

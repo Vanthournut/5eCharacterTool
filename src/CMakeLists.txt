@@ -1,0 +1,1 @@
+add_library(character character.cpp stat.cpp)
