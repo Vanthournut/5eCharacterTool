@@ -1,1 +1,1 @@
-add_library(character character.cpp stat.cpp)
+add_library(character character.cpp race.cpp)

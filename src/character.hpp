@@ -1,29 +1,47 @@
 #include <string>
 #include <vector>
+#include <memory>
 #include "stat.hpp"
+#include "proficiencies.hpp"
+
+class Feat;
+class AbilityScoreFeat;
 
 using namespace std;
 
-static char defaultStats[6] = {10, 10, 10, 10, 10, 10};
+static char defaultAbilityScores[6] = {10, 10, 10, 10, 10, 10};
 
 class Character {
 
     private:
 
     string name;
-    char armorClass;
+    vector<SkillProficiency> skillProficiencies;
+
+    // Feats
+    vector<shared_ptr<Feat>> feats;
+    vector<shared_ptr<AbilityScoreFeat>> abilityScoreFeats;
+
     ushort maxHP;
     ushort currentHP;
-    char statScores[6];
+    char startingAbilityScores[6];
+    char abilityScores[6];
+    char speed;
+
 
     public:
     string getName();
     char getArmorClass();
     ushort getMaxHP();
     ushort getCurrentHP();
-    char getStatScore(Stat stat);
-    char getStatModifier(Stat stat);
+    char getAbilityScore(Stat stat);
+    char getAbilityModifier(Stat stat);
+    void addFeat(Feat* feat);
+    void addAbilityScoreFeat(shared_ptr<AbilityScoreFeat>);
+    void add2AbilityScore(Stat stat, char quantity);
 
-    Character(string name, char stats[6] = defaultStats);
+    void update();
+
+    Character(string name, char stats[6] = defaultAbilityScores);
 
 };
