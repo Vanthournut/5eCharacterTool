@@ -3,7 +3,3 @@
 Feat::~Feat() {
 
 }
-
-AbilityScoreFeat::~AbilityScoreFeat() {
-    
-}

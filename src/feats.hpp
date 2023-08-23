@@ -6,10 +6,7 @@ class Character;
 
 class Feat{
     public:
+    virtual string getName() = 0;
     virtual string getDescription() = 0;
-};
-
-class AbilityScoreFeat : public Feat {
-    public:
-    virtual void updateAbility(Character* character) = 0;
+    virtual void update(Character& character) = 0;
 };

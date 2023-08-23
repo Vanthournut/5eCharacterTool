@@ -6,30 +6,29 @@ bool Race::addTo(Character& character) {
 }
 
 bool Elf::addTo(Character& character) {
-    // character.addFeat(this);
-    std::shared_ptr<AbilityScoreFeat> abilityIncrease (new ElfAbilityIncrease());
-    character.addAbilityScoreFeat(abilityIncrease);
+    // Ability Score Increase
+    std::shared_ptr<Feat> abilityIncrease (new ElfAbilityIncrease());
+    feats.push_back(abilityIncrease);
+    character.addFeat(abilityIncrease);
+
+    // Keen Sense
+    std::shared_ptr<Feat> keenSense (new ElfKeenSense());
+    feats.push_back(keenSense);
+    character.addFeat(keenSense);
+
     return true;
 }
 
 Elf::Elf(Character& character) {
+    feats = vector<shared_ptr<Feat>>();
     this->addTo(character);
 }
 
-/*
-std::string Elf::getDescription() {
-    return "Elf";
+void Elf::ElfAbilityIncrease::update(Character& character) {
+    character.addAbilityScore(Stat::Dexterity, 2);
+    character.addAbilityScore(Stat::Intelligence, 1);
 }
 
-void Elf::updateAbility(Character* character) {
-    printf("Adding 2 to Dex, 1 to Int\n");
-    character->add2AbilityScore(Stat::Dexterity, 2);
-    character->add2AbilityScore(Stat::Intelligence, 1);
-}
-*/
-
-void Elf::ElfAbilityIncrease::updateAbility(Character* character) {
-    printf("Adding 2 to Dex, 1 to Int\n");
-    character->add2AbilityScore(Stat::Dexterity, 2);
-    character->add2AbilityScore(Stat::Intelligence, 1);
+void Elf::ElfKeenSense::update(Character& character) {
+    character.addSkillProficiency(Skill::Perception);
 }

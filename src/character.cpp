@@ -41,12 +41,11 @@ char Character::getAbilityModifier(Stat stat) {
     return (abilityScores[stat]-10)/2;
 }
 
-void Character::addFeat(Feat* feat) {
-    //feats.push_back(make_shared<Feat>(*feat));
-}
-
-void Character::addAbilityScoreFeat(shared_ptr<AbilityScoreFeat> feat) {
-    abilityScoreFeats.push_back(feat);
+void Character::addFeat(shared_ptr<Feat> feat) {
+    if(feat == nullptr) {
+        return;
+    }
+    feats.push_back(feat);
     update();
 }
 
@@ -56,12 +55,20 @@ void Character::update() {
         abilityScores[i] = startingAbilityScores[i];
     }
 
-    for(shared_ptr<AbilityScoreFeat> feat: abilityScoreFeats) {
-        printf("Updating Ability Feat %s\n", feat->getDescription().c_str());
-        feat->updateAbility(this);
+    for(shared_ptr<Feat> feat: feats) {
+        feat->update(*this);
     }
 }
 
-void Character::add2AbilityScore(Stat stat, char quantity) {
+void Character::addAbilityScore(Stat stat, char quantity) {
     abilityScores[stat] += quantity;
+}
+
+// Will return false if already proficient in skill
+bool Character::addSkillProficiency(Skill skill) {
+    if(skillProficiencies[skill]) {
+        return false;
+    }
+    skillProficiencies[skill] = true;
+    return true;
 }

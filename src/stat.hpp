@@ -10,10 +10,3 @@ enum Stat : char {
     Wisdom,
     Charisma
 };
-
-/*
-class Stat {
-    string name;
-    char score;
-}; 
-*/

@@ -16,12 +16,16 @@ class Character {
     private:
 
     string name;
-    vector<SkillProficiency> skillProficiencies;
+
+    // Proficiencies
+    bool savingThrowProficiencies[6];
+    bool skillProficiencies[18];
+    vector<ToolProficiency> toolProficiencies;
+    vector<WeaponProficiency> weaponProficiencies;
+    bool armorProficiencies[4];
 
     // Feats
     vector<shared_ptr<Feat>> feats;
-    vector<shared_ptr<AbilityScoreFeat>> abilityScoreFeats;
-
     ushort maxHP;
     ushort currentHP;
     char startingAbilityScores[6];
@@ -36,9 +40,9 @@ class Character {
     ushort getCurrentHP();
     char getAbilityScore(Stat stat);
     char getAbilityModifier(Stat stat);
-    void addFeat(Feat* feat);
-    void addAbilityScoreFeat(shared_ptr<AbilityScoreFeat>);
-    void add2AbilityScore(Stat stat, char quantity);
+    void addFeat(shared_ptr<Feat> feat);
+    void addAbilityScore(Stat stat, char quantity);
+    bool addSkillProficiency(Skill skill);
 
     void update();
 
