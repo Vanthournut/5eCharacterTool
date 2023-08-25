@@ -1,4 +1,5 @@
 #include <math.h>
+#include <iostream>
 
 enum Die {
     modifier = 0,
@@ -31,6 +32,38 @@ class DicePool {
     public:
     DicePool(char pool[7]);
     char pool[7];
+    std::string toString(){
+        std::string output;
+        if (pool[6] != 0)
+        {
+            output += pool[6] + "d20";
+        }
+        if (pool[5] != 0)
+        {
+            output += pool[5] + "d12";
+        }
+        if (pool[4] != 0)
+        {
+            output += pool[4] + "d10";
+        }
+        if (pool[3] != 0)
+        {
+            output += pool[3] + "d8";
+        }
+        if (pool[2] != 0)
+        {
+            output += pool[2] + "d6";
+        }
+        if (pool[1] != 0)
+        {
+            output += pool[1] + "d4";
+        }
+        if (pool[0] != 0)
+        {
+            output += pool[0];
+        }
+        
+    }
 
     friend DicePool operator+(DicePool p1, DicePool p2) {
         char pool[7];

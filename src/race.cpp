@@ -32,3 +32,16 @@ void Elf::ElfAbilityIncrease::update(Character& character) {
 void Elf::ElfKeenSense::update(Character& character) {
     character.addSkillProficiency(Skill::Perception);
 }
+
+void Elf::ElfFeyAncestry::update(Character& character) {
+    
+}
+
+void Elf::ElfTrance::update(Character& character) {
+
+}
+
+void Elf::ElfLanguages::update(Character& character) {
+    character.addLanguage("Common", true, true, true);
+    character.addLanguage("Elvish", true, true, true);
+}

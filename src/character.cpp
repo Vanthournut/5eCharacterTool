@@ -14,6 +14,7 @@ Character::Character(string name, char stats[6]){
     this->name = name;
     maxHP = 4;
     currentHP = maxHP;
+    speed = 30;
 }
 
 string Character::getName() {
@@ -71,4 +72,14 @@ bool Character::addSkillProficiency(Skill skill) {
     }
     skillProficiencies[skill] = true;
     return true;
+}
+
+
+bool Character::addLanguage(string name, bool speak, bool read, bool write) {
+    languages.push_back(Language(name, speak, read, write));
+    return true;
+}
+
+bool Character::isProficient(Skill skill) {
+    return skillProficiencies[skill];
 }

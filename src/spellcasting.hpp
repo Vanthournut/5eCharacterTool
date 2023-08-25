@@ -4,10 +4,12 @@
 
 using namespace std;
 
-class Spellcasting {
+class Spellcasting : public SpellSlotSource {
     float level;
     char spellSlots[9];
-    vector<SpellcastingSource> sources;
+    vector<SpellcastingSource> spellcastingSources;
+    vector<SpellSlotSource> SpellSlotSources;
+    void update() override {};
 };
 
 class SpellcastingSource {
@@ -15,6 +17,11 @@ class SpellcastingSource {
     char saveDC;
     Stat spellcastingAbilitity;
     vector<Spell> spells;
+};
+
+class SpellSlotSource {
+    char spellSlots[9];
+    virtual void update();
 };
 
 class Spell{

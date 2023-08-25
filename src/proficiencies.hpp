@@ -120,3 +120,15 @@ class ToolProficiency {
 class WeaponProficiency {
     string name;
 };
+
+class Language {
+    const string name;
+    bool speak;
+    bool read;
+    bool write;
+
+    public:
+    Language(string name, bool speak, bool read, bool write) 
+    : name(name), speak(speak), read(read), write(write) {
+    };
+};
