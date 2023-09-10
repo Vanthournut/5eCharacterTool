@@ -8,6 +8,23 @@ TEST_CASE("Classless Characters", "[character]") {
     Stat statArray[6] {Stat::Strength, Stat::Dexterity, Stat::Constitution, Stat::Intelligence, Stat::Wisdom, Stat::Charisma};
     
     SECTION("Default Values") {
+
+        ConsoleSelecter selecter;
+        vector<SelecterItem*> featList;
+        class TestSelecterItem : public SelecterItem {
+            string getName() override {return "Test Name";}
+            string getDescription() override {return "Test Description";}
+        };
+        TestSelecterItem t1;
+        TestSelecterItem t2;
+        TestSelecterItem t3;
+
+        featList.push_back(&t1);
+        featList.push_back(&t2);
+        featList.push_back(&t3);
+
+        selecter.select(featList, 2);
+
         Character c = Character("Default");
         REQUIRE( (int) c.getArmorClass() == 10 );
         REQUIRE( c.getMaxHP() == 4 );

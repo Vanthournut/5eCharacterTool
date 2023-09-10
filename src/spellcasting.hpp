@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
 #include "stat.hpp"
+#include "selecter.hpp"
 
 using namespace std;
 
@@ -19,7 +20,7 @@ class SpellcastingSource {
     vector<Spell> spells;
 };
 
-class SpellSlotSource {
+class SpellSlotSource : public SelecterItem {
     char spellSlots[9];
     virtual void update();
 };
@@ -27,4 +28,10 @@ class SpellSlotSource {
 class Spell{
     virtual string getName();
     virtual string getDescription();
+    virtual char getSchool();
+    virtual char getSpellLevel();
+    virtual char getCastingTime();
+    virtual bool isConcentration();
+    virtual bool isRitual();
+    virtual vector<bool> getComponents();
 };

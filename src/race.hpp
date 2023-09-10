@@ -6,7 +6,7 @@ class Feat;
 
 class Character;
 
-class Race {
+class Race : public SelecterItem {
    virtual bool addTo(Character& character) = 0;
 };
 
@@ -17,8 +17,10 @@ class Elf : public Race {
     public:
     Elf(Character& character);
     bool addTo(Character& character) override;
+    string getName() override {return "Elf";}
+    string getDescription() override {return "Is Elf";};
 
-    protected:
+    //protected:
     class ElfAbilityIncrease : public Feat {
         string getName() override {return "Elf: Ability Score Increase";};
         string getDescription() override {return "Your Dexterity score increases by 2.";};

@@ -6,6 +6,7 @@
 
 class Feat;
 class AbilityScoreFeat;
+class Selecter;
 
 using namespace std;
 
