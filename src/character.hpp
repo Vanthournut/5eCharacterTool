@@ -1,8 +1,11 @@
+#pragma once
+
 #include <string>
 #include <vector>
 #include <memory>
 #include "stat.hpp"
 #include "proficiencies.hpp"
+#include "spellcasting.hpp"
 
 class Feat;
 class AbilityScoreFeat;
@@ -33,6 +36,9 @@ class Character {
     char startingAbilityScores[6];
     char abilityScores[6];
     char speed;
+
+    Spellcasting spellcasting;
+
 
 
     public:
