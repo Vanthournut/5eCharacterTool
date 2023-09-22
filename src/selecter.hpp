@@ -7,8 +7,8 @@ using namespace std;
 
 class SelecterItem {
     public:
-    virtual string getName() = 0;
-    virtual string getDescription() = 0;
+    virtual string getName() const = 0;
+    virtual string getDescription() const = 0;
 };
 
 class Selecter {

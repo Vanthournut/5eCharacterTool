@@ -3,6 +3,7 @@
 #include "../src/race.hpp"
 
 #include <iostream>
+#include "../src/spellcasting.hpp"
 
 TEST_CASE("Classless Characters", "[character]") {
     Stat statArray[6] {Stat::Strength, Stat::Dexterity, Stat::Constitution, Stat::Intelligence, Stat::Wisdom, Stat::Charisma};
@@ -12,8 +13,8 @@ TEST_CASE("Classless Characters", "[character]") {
         ConsoleSelecter selecter;
         vector<SelecterItem*> featList;
         class TestSelecterItem : public SelecterItem {
-            string getName() override {return "Test Name";}
-            string getDescription() override {return "Test Description";}
+            string getName() const override {return "Test Name";}
+            string getDescription() const override {return "Test Description";}
         };
         TestSelecterItem t1;
         TestSelecterItem t2;
@@ -23,7 +24,7 @@ TEST_CASE("Classless Characters", "[character]") {
         featList.push_back(&t2);
         featList.push_back(&t3);
 
-        selecter.select(featList, 2);
+        //selecter.select(featList, 2);
 
         Character c = Character("Default");
         REQUIRE( (int) c.getArmorClass() == 10 );
