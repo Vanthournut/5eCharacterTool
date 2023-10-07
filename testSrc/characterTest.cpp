@@ -24,7 +24,9 @@ TEST_CASE("Classless Characters", "[character]") {
         featList.push_back(&t2);
         featList.push_back(&t3);
 
-        //selecter.select(featList, 2);
+        //cout << ACID_SPLASH.getName() << endl;
+
+        selecter.select(WIZARD_SPELL_SELECTOR, 2);
 
         Character c = Character("Default");
         REQUIRE( (int) c.getArmorClass() == 10 );

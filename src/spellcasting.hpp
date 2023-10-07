@@ -96,3 +96,24 @@ class AcidSplash : public Spell {
 };
 
 static AcidSplash ACID_SPLASH = AcidSplash();
+
+class ChillTouch : public Spell {
+    public:
+    string getName() const override {return "Chill Touch";};
+    string getDescription() const  override {return "You create a ghostly, skeletal hand in the space of a creature within range. Make a ranged spell attack against the creature to assail it with the chill of the grave. On a hit, the target takes 1d8 necrotic damage, and it can't regain hit points until the start of your next turn. Until then, the hand clings to the target.\n\n\
+If you hit an undead target, it also has disadvantage on attack rolls against you until the end of your next turn.\n\n\
+This spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8).";};
+    SpellSchool getSchool() const override {return SpellSchool::Necromancy;};
+    SpellLevel getSpellLevel() const override {return SpellLevel::Cantrip;};
+    TimeDuration getCastingTime() const override {return TimeDuration{TimeMeasurement::Action, 1};};
+    bool isConcentration() const override {return false;};
+    bool isRitual() const override {return false;};
+    SpellComponents getComponents() const override {return SpellComponents{true, true, "", false};};
+    vector<string> getTags() const override {return vector<string>();};
+};
+
+static ChillTouch CHILL_TOUCH = ChillTouch();
+
+
+extern vector<Spell*> WIZARD_SPELL_LIST;
+extern vector<SelecterItem*> WIZARD_SPELL_SELECTOR;
