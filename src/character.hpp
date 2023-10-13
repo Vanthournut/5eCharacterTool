@@ -6,6 +6,7 @@
 #include "stat.hpp"
 #include "proficiencies.hpp"
 #include "spellcasting.hpp"
+#include "race.hpp"
 
 class Feat;
 class AbilityScoreFeat;
@@ -20,6 +21,8 @@ class Character {
     private:
 
     string name;
+
+    Race* race;
 
     // Proficiencies
     bool savingThrowProficiencies[6];
@@ -50,6 +53,7 @@ class Character {
     char getAbilityModifier(Stat stat);
     void addFeat(shared_ptr<Feat> feat);
     void addAbilityScore(Stat stat, char quantity);
+    void addRace(Race* race);
     
     bool addSkillProficiency(Skill skill);
     bool addLanguage(string name, bool speak, bool read, bool write);

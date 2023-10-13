@@ -1,23 +1,24 @@
-class Feat;
-
 #include "feats.hpp"
 #include "spellcasting.hpp"
 #include <memory>
 #include <vector>
 
+#pragma once
+
 class Character;
 
 class Race : public SelecterItem {
-   virtual bool addTo(Character& character) = 0;
+    protected :
+    vector<shared_ptr<Feat>> feats;
+    Race();
+
+    public:
+    bool addTo(Character& character);
 };
 
 class Elf : public Race {
-    protected :
-    vector<shared_ptr<Feat>> feats;
-
     public:
-    Elf(Character& character);
-    bool addTo(Character& character) override;
+    Elf();
     string getName() const override {return "Elf";}
     string getDescription() const override {return "Is Elf";};
 
@@ -54,9 +55,8 @@ class Elf : public Race {
 };
 
 class HighElf : public Elf {
-    HighElf(Character& character);
-    bool addTo(Character& character) override;
-
+    public:
+    HighElf();
 
     class HighElfAbilityIncrease : public Feat {
         string getName() const override {return "High Elf: Ability Score Increase";};

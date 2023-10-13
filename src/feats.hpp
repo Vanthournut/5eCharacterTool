@@ -1,6 +1,8 @@
 #include <string>
 #include "selecter.hpp"
 
+#pragma once
+
 using namespace std;
 
 class Character;

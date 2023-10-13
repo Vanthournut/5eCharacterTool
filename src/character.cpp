@@ -80,6 +80,10 @@ bool Character::addLanguage(string name, bool speak, bool read, bool write) {
     return true;
 }
 
+void Character::addRace(Race* race) {
+    race->addTo(*this);
+}
+
 bool Character::isProficient(Skill skill) {
     return skillProficiencies[skill];
 }

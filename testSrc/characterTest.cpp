@@ -56,7 +56,43 @@ TEST_CASE("Classless Characters", "[character]") {
         }
 
         SECTION("Elf w/ Standard") {
-            Elf e(c);
+            Elf e;
+            c.addRace(&e);
+            stats[Stat::Dexterity] += 2;
+            modifiers[Stat::Dexterity] += 1;
+
+            REQUIRE( (int) c.getArmorClass() == 13 );
+            REQUIRE( c.getMaxHP() == 4 );
+            REQUIRE( c.getCurrentHP() == 4 );
+            REQUIRE( c.getName().compare("Standard") == 0 );
+
+            REQUIRE( c.addSkillProficiency(Skill::Perception) == false );
+
+            for (Stat stat : statArray)
+            {
+                REQUIRE( c.getAbilityScore(stat) == stats[stat] );
+                REQUIRE( c.getAbilityModifier(stat) == modifiers[stat] );
+            }
+
+            c.update();
+
+            REQUIRE( (int) c.getArmorClass() == 13 );
+            REQUIRE( c.getMaxHP() == 4 );
+            REQUIRE( c.getCurrentHP() == 4 );
+            REQUIRE( c.getName().compare("Standard") == 0 );
+
+            REQUIRE( c.addSkillProficiency(Skill::Perception) == false );
+
+            for (Stat stat : statArray)
+            {
+                REQUIRE( c.getAbilityScore(stat) == stats[stat] );
+                REQUIRE( c.getAbilityModifier(stat) == modifiers[stat] );
+            }
+        }
+
+        SECTION("High Elf w/ Standard") {
+            HighElf e;
+            c.addRace(&e);
             stats[Stat::Dexterity] += 2;
             modifiers[Stat::Dexterity] += 1;
             stats[Stat::Intelligence] += 1;
