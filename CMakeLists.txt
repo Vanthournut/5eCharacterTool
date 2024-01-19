@@ -8,3 +8,6 @@ add_subdirectory(testSrc)
 
 add_executable(tests test.cpp)
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain testSources)
+
+add_executable(menu characterMenu.cpp)
+target_link_libraries(menu character)

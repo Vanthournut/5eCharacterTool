@@ -37,6 +37,7 @@ struct SpellComponents
     bool verbal;
     bool somatic;
     string material;
+    int materialCost;
     bool materialConsumed;
 };
 
