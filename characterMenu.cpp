@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <limits>
 
 using namespace std;
 
@@ -62,16 +63,12 @@ int main() {
 
     Character c(name, stats);
 
+
+    Elf e;
+    c.addRace(&e);
+
     cout << endl << endl;
 
-    cout << "Name: " << c.getName() << endl;
-    cout << "AC: " << int(c.getArmorClass()) << endl;
-    cout << "HP: " << c.getCurrentHP() << " / " << c.getMaxHP() << endl;
-
-    for (int i = 0; i < 6; i++)
-    {
-        cout << statString[i] << ": " << int(c.getAbilityScore(Stat(i))) << "(" << int(c.getAbilityModifier(Stat(i))) << ")" << endl; 
-    }   
-
+    cout << c.toString() << endl;
     return 0;
 }

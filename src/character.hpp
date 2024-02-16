@@ -62,6 +62,8 @@ class Character {
 
     void update();
 
+    string toString();
+
     Character(string name, char stats[6] = defaultAbilityScores);
 
 };

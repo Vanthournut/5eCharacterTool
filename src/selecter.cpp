@@ -2,6 +2,7 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
+#include <limits>
 
 using namespace std;
 
@@ -58,3 +59,5 @@ vector<int> ConsoleSelecter::select(vector<SelecterItem*> list, int count) {
 vector<pair<int, int>> ConsoleSelecter::swap(vector<SelecterItem*> currentList, vector<SelecterItem*> swapList, int maxSelections) {
     return vector<pair<int,int>>();
 }
+
+// const static Selecter* defaultSelecter = new ConsoleSelecter();

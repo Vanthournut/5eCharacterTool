@@ -87,3 +87,24 @@ void Character::addRace(Race* race) {
 bool Character::isProficient(Skill skill) {
     return skillProficiencies[skill];
 }
+
+string Character::toString() {
+    static string statString[6] = {"STR", "DEX", "CON", "INT", "WIS", "CHA"};
+
+    string output = "";
+
+    output += "Name: " + getName() + "\n\n";
+    output += "AC: " + to_string(int(getArmorClass())) + '\n';
+    output += "HP: " + to_string(getCurrentHP()) + " / " + to_string(getMaxHP()) + '\n';
+
+    for (int i = 0; i < 6; i++)
+    {
+        output += '\n' + statString[i] + ": " + to_string(int(this->getAbilityScore(Stat(i)))) + "(" + to_string(int(this->getAbilityModifier(Stat(i)))) + ")"; 
+    }  
+
+    for(auto feat : feats) {
+        output += "\n\n" + feat->toString();
+    }
+
+    return output;
+}
