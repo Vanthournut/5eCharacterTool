@@ -63,9 +63,13 @@ int main() {
 
     Character c(name, stats);
 
-
-    Elf e;
-    c.addRace(&e);
+    ConsoleSelecter selecter;
+    try{
+        HighElf e(selecter);
+        c.addRace(&e);
+    } catch(...) {
+        cout << "Failed to create HighElf Class" << endl;
+    }
 
     cout << endl << endl;
 

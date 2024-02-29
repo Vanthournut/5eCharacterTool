@@ -7,10 +7,10 @@
 
 TEST_CASE("Classless Characters", "[character]") {
     Stat statArray[6] {Stat::Strength, Stat::Dexterity, Stat::Constitution, Stat::Intelligence, Stat::Wisdom, Stat::Charisma};
+    ConsoleSelecter selecter;
     
     SECTION("Default Values") {
 
-        ConsoleSelecter selecter;
         vector<SelecterItem*> featList;
         class TestSelecterItem : public SelecterItem {
             string getName() const override {return "Test Name";}
@@ -91,7 +91,7 @@ TEST_CASE("Classless Characters", "[character]") {
         }
 
         SECTION("High Elf w/ Standard") {
-            HighElf e;
+            HighElf e(selecter);
             c.addRace(&e);
             stats[Stat::Dexterity] += 2;
             modifiers[Stat::Dexterity] += 1;

@@ -56,7 +56,7 @@ class Elf : public Race {
 
 class HighElf : public Elf {
     public:
-    HighElf();
+    HighElf(Selecter& selecter);
 
     class HighElfAbilityIncrease : public Feat {
         string getName() const override {return "High Elf: Ability Score Increase";};
@@ -71,8 +71,10 @@ class HighElf : public Elf {
     };
 
     class HighElfCantrip : public Feat, SpellcastingSource {
+        public:
+        HighElfCantrip(Spell* Spell);
         string getName() const override {return "High Elf: Cantrip";};
-        string getDescription() const override {return "You know one cantrip of your choice from the wizard spell list. Intelligence is your spellcasting ability for it.";};
+        string getDescription() const override {return "You know one cantrip of your choice from the wizard spell list (" + spells.front()->getName() + "). Intelligence is your spellcasting ability for it.";};
         void update(Character& character) override;
     };
 

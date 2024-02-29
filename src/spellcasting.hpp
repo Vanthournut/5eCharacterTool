@@ -52,10 +52,11 @@ class Spell : public SelecterItem {
 };
 
 class SpellcastingSource {
+    protected:
     char attackBonus;
     char saveDC;
     Stat spellcastingAbilitity;
-    vector<Spell> spells;
+    vector<Spell*> spells;
 };
 
 class SpellSlotSource : public SelecterItem {

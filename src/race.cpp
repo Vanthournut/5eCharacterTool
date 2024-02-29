@@ -1,6 +1,7 @@
 #include "race.hpp"
 #include "character.hpp"
-
+#include "selecter.hpp"
+#include "spellcasting.hpp"
 
 Race::Race() {
     feats = vector<shared_ptr<Feat>>();
@@ -57,14 +58,23 @@ void Elf::ElfLanguages::update(Character& character) {
     character.addLanguage("Elvish", true, true, true);
 }
 
-HighElf::HighElf() : Elf() 
+HighElf::HighElf(Selecter& selecter) : Elf() 
 {
     // Ability Score Increase
     std::shared_ptr<Feat> highElfAbilityIncrease (new HighElfAbilityIncrease());
     feats.push_back(highElfAbilityIncrease);
 
+    auto selection = selecter.select(WIZARD_SPELL_SELECTOR);
+    
+    if (selection.size() == 0)
+    {
+        throw exception();
+    }
+    
+    Spell* spell = WIZARD_SPELL_LIST.at(selection[0]);
+
     // Cantrip
-    std::shared_ptr<Feat> cantrip (new HighElfCantrip());
+    std::shared_ptr<Feat> cantrip (new HighElfCantrip(spell));
     feats.push_back(cantrip);
 
     // Weapons
@@ -80,8 +90,19 @@ void HighElf::HighElfAbilityIncrease::update(Character& character) {
     character.addAbilityScore(Stat::Intelligence, 1);
 }
 
-void HighElf::HighElfCantrip::update(Character& character) {
+HighElf::HighElfCantrip::HighElfCantrip(Spell* spell) {
+    if (!spell)
+    {
+        throw exception();
+    }
+    
+    this->spells.push_back(spell);
+    this->spellcastingAbilitity = Intelligence;
+}
 
+void HighElf::HighElfCantrip::update(Character& character) {
+    attackBonus = character.getAbilityModifier(Intelligence);
+    saveDC = 8 + character.getAbilityModifier(Intelligence);
 }
 
 void HighElf::HighElfExtraLanguage::update(Character& character) {
