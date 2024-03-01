@@ -7,6 +7,7 @@
 using namespace std;
 
 int main() {
+    system("clear");
 
     string name;
     cout << "Enter Character Name: ";
@@ -69,9 +70,10 @@ int main() {
         c.addRace(&e);
     } catch(...) {
         cout << "Failed to create HighElf Class" << endl;
+        return -1;
     }
 
-    cout << endl << endl;
+    system("clear");
 
     cout << c.toString() << endl;
     return 0;
