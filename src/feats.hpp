@@ -1,8 +1,8 @@
+#pragma once
+
 #include <string>
 #include "selecter.hpp"
 #include <iostream>
-
-#pragma once
 
 using namespace std;
 

@@ -1,3 +1,4 @@
+#pragma once
 #include <math.h>
 #include <iostream>
 
@@ -25,54 +26,95 @@ enum RollType {
     AbilityCheck,
     Attack,
     SavingThrow,
-    Other
+    OtherRollType
 };
 
 class DicePool {
     public:
-    DicePool(char pool[7]);
+    DicePool() {for(int i = 0; i < 7; i++){this->pool[i] = 0;}};
+    DicePool(char pool[7]) {for(int i = 0; i < 7; i++){this->pool[i] = pool[i];}};
     char pool[7];
     std::string toString(){
-        std::string output;
-        if (pool[6] != 0)
-        {
-            output += pool[6] + "d20";
-        }
-        if (pool[5] != 0)
-        {
-            output += pool[5] + "d12";
-        }
-        if (pool[4] != 0)
-        {
-            output += pool[4] + "d10";
-        }
-        if (pool[3] != 0)
-        {
-            output += pool[3] + "d8";
-        }
-        if (pool[2] != 0)
-        {
-            output += pool[2] + "d6";
-        }
-        if (pool[1] != 0)
-        {
-            output += pool[1] + "d4";
-        }
-        if (pool[0] != 0)
-        {
-            output += pool[0];
-        }
+        std::string output = "";
         
+        // for (int i = 0; i < 7; i++)
+        // {
+        //     output += std::to_string((int) pool[i]);
+        // }
+        
+        bool isEmpty = true;
+        if (pool[6] != (char) 0)
+        {
+            if(!isEmpty) {
+                output += '+';
+            }
+            output += std::to_string((int) pool[6]) + "d20";
+            isEmpty = false;
+        }
+        if (pool[5] != (char) 0)
+        {
+            if(!isEmpty) {
+                output += '+';
+            }
+            output += std::to_string((int) pool[5]) + "d12";
+            isEmpty = false;
+        }
+        if (pool[4] != (char) 0)
+        {
+            if(!isEmpty) {
+                output += '+';
+            }
+            output += std::to_string((int) pool[4]) + "d10";
+            isEmpty = false;
+        }
+        if (pool[3] != (char) 0)
+        {
+            if(!isEmpty) {
+                output += '+';
+            }
+            output += std::to_string((int) pool[3]) + "d8";
+            isEmpty = false;
+        }
+        if (pool[2] != (char) 0)
+        {
+            if(!isEmpty) {
+                output += '+';
+            }
+            output += std::to_string((int) pool[2]) + "d6";
+            isEmpty = false;
+        }
+        if (pool[1] != (char) 0)
+        {
+            if(!isEmpty) {
+                output += '+';
+            }
+            output += std::to_string((int) pool[1]) + "d4";
+            isEmpty = false;
+        }
+        if (pool[0] != (char) 0)
+        {
+            if(!isEmpty) {
+                output += '+';
+            }
+            output += std::to_string((int) pool[0]);
+            isEmpty = false;
+        }
+
+        if(isEmpty) {
+            output += "0";
+        }
+
+        return output;
     }
 
     friend DicePool operator+(DicePool p1, DicePool p2) {
-        char pool[7];
+        char pool[7] {0};
         for (char i = 0; i < 7; i++)
         {
             pool[i] = p1.pool[i] + p2.pool[i];
         }
 
-        return   DicePool(pool);
+        return DicePool(pool);
     };
 
     private:

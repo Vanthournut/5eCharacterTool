@@ -1,1 +1,1 @@
-add_library(character character.cpp race.cpp selecter.cpp spellcasting.cpp)
+add_library(character character.cpp race.cpp selecter.cpp spellcasting.cpp proficiencies.cpp)

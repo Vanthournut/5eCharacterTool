@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
 #include "character.hpp"
-
+#include "proficiencies.hpp"
 #include "feats.hpp"
 
 Character::Character(string name, char stats[6]){
@@ -15,6 +15,7 @@ Character::Character(string name, char stats[6]){
     maxHP = 4;
     currentHP = maxHP;
     speed = 30;
+    proficiencyBonus = 2;
 }
 
 string Character::getName() {
@@ -52,6 +53,8 @@ void Character::addFeat(shared_ptr<Feat> feat) {
 
 void Character::update() {
 
+    skillProficiencies = getNewSkillVector();
+
     for(int i = 0; i < 6; i++) {
         abilityScores[i] = startingAbilityScores[i];
     }
@@ -67,10 +70,12 @@ void Character::addAbilityScore(Stat stat, char quantity) {
 
 // Will return false if already proficient in skill
 bool Character::addSkillProficiency(Skill skill) {
-    if(skillProficiencies[skill]) {
+    if(skillProficiencies[skill].isProficient) {
         return false;
     }
-    skillProficiencies[skill] = true;
+    skillProficiencies[skill].isProficient = true;
+    skillProficiencies[skill].bonus.pool[0] += this->proficiencyBonus;
+    
     return true;
 }
 
@@ -85,7 +90,7 @@ void Character::addRace(Race* race) {
 }
 
 bool Character::isProficient(Skill skill) {
-    return skillProficiencies[skill];
+    return skillProficiencies[skill].isProficient;
 }
 
 string Character::toString() {
@@ -102,9 +107,27 @@ string Character::toString() {
         output += '\n' + statString[i] + ": " + to_string(int(this->getAbilityScore(Stat(i)))) + "(" + to_string(int(this->getAbilityModifier(Stat(i)))) + ")"; 
     }  
 
+    output += "\n\nProficiencies";
+    for (char i = 0; i < 18; i++)
+    {
+        output += '\n' + skillProficiencies[i].toStringWithStat(this, getDefaultStat((Skill) i));
+    }
+     
+
     for(auto feat : feats) {
         output += "\n\n" + feat->toString();
     }
 
     return output;
+}
+
+
+vector<Proficiency> Character::getNewSkillVector() {
+    vector<Proficiency> skills;
+    skills.reserve(18);
+    for(char i = Skill::Acrobatics; i <= Skill::Survival; i++) {
+        skills.push_back(Proficiency(SKILL_NAME[i]));
+    }
+
+    return skills;
 }

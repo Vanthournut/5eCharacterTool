@@ -25,8 +25,9 @@ class Character {
     Race* race;
 
     // Proficiencies
+    char proficiencyBonus;
     bool savingThrowProficiencies[6];
-    bool skillProficiencies[18];
+    vector<Proficiency> skillProficiencies;
     vector<ToolProficiency> toolProficiencies;
     vector<WeaponProficiency> weaponProficiencies;
     vector<Language> languages;
@@ -42,7 +43,7 @@ class Character {
 
     Spellcasting spellcasting;
 
-
+    vector<Proficiency> getNewSkillVector();
 
     public:
     string getName();

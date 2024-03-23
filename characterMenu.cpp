@@ -3,6 +3,7 @@
 #include <string>
 #include <algorithm>
 #include <limits>
+#include <stack>
 
 using namespace std;
 
@@ -19,6 +20,8 @@ int main() {
     int selection;
     int numAssigned = 0;
     string errorMessage = "";
+    stack<int> inputStack;
+
 
     while(numAssigned != 6) {
         cout << "0 STR: " << int(stats[0]) << endl;
@@ -45,7 +48,8 @@ int main() {
             errorMessage = "";
             if(numAssigned != 0) {
                 numAssigned--;
-                stats[numAssigned] = 0;
+                stats[inputStack.top()] = 0;
+                inputStack.pop();
             }
         }
         else if (stats[selection] != char(0))
@@ -59,6 +63,7 @@ int main() {
             cin.clear();
             errorMessage = "";
             stats[selection] = standardArray[numAssigned++];
+            inputStack.push(selection);
         }
     }
 
@@ -72,6 +77,8 @@ int main() {
         cout << "Failed to create HighElf Class" << endl;
         return -1;
     }
+
+    c.update();
 
     system("clear");
 

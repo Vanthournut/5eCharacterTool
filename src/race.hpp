@@ -1,9 +1,8 @@
+#pragma once
 #include "feats.hpp"
 #include "spellcasting.hpp"
 #include <memory>
 #include <vector>
-
-#pragma once
 
 class Character;
 

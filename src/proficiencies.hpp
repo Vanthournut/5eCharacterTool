@@ -1,6 +1,12 @@
+#pragma once
 #include <string>
+#include "dice.hpp"
+#include <vector>
+#include "stat.hpp"
 
 using namespace std;
+
+class Character;
 
 enum Skill : char {
     Acrobatics,
@@ -23,6 +29,9 @@ enum Skill : char {
     Survival
 };
 
+static vector<string> SKILL_NAME = {"Acrobatics", "Animal Handling", "Arcana", "Athletics", "Deception", "History", "Insight", "Intimidation", \
+    "Investigation", "Medicine", "Nature", "Perception", "Performance", "Persuasion", "Religion", "Sleight of Hand", "Stealth", "Survival"};
+
 enum ArmorType : char {
     LightArmor,
     MediumArmor,
@@ -35,7 +44,7 @@ enum ToolType : char {
     GamingSet,
     MusicalInstrument,
     Vehicle,
-    Other
+    OtherToolType
 };
 
 static const string ArtisansTools[19] {
@@ -113,12 +122,23 @@ static Stat getDefaultStat(Skill skill) {
     return defaultSkillStat[skill];
 }
 
-class ToolProficiency {
+class Proficiency {
     string name;
+
+    public:
+    bool isProficient;
+    DicePool bonus;
+
+    Proficiency(string name) : name(name), isProficient(false) {};
+
+    string toString();
+    string toStringWithStat(Character* c, Stat stat);
 };
 
-class WeaponProficiency {
-    string name;
+class ToolProficiency : public Proficiency {
+};
+
+class WeaponProficiency : public Proficiency {
 };
 
 class Language {
