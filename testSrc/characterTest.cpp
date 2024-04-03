@@ -56,7 +56,7 @@ TEST_CASE("Classless Characters", "[character]") {
         }
 
         SECTION("Elf w/ Standard") {
-            Elf e;
+            Elf e(selecter);
             c.addRace(&e);
             stats[Stat::Dexterity] += 2;
             modifiers[Stat::Dexterity] += 1;

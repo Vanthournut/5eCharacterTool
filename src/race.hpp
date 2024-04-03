@@ -9,7 +9,7 @@ class Character;
 class Race : public SelecterItem {
     protected :
     vector<shared_ptr<Feat>> feats;
-    Race();
+    Race(Selecter& selecter);
 
     public:
     bool addTo(Character& character);
@@ -17,7 +17,7 @@ class Race : public SelecterItem {
 
 class Elf : public Race {
     public:
-    Elf();
+    Elf(Selecter& selecter);
     string getName() const override {return "Elf";}
     string getDescription() const override {return "Is Elf";};
 

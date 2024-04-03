@@ -3,7 +3,7 @@
 #include "selecter.hpp"
 #include "spellcasting.hpp"
 
-Race::Race() {
+Race::Race(Selecter& selecter) {
     feats = vector<shared_ptr<Feat>>();
 }
 
@@ -14,7 +14,7 @@ bool Race::addTo(Character& character) {
     return true;
 }
 
-Elf::Elf() {
+Elf::Elf(Selecter& selecter) : Race(selecter) {
 
     // Ability Score Increase
     std::shared_ptr<Feat> abilityIncrease (new ElfAbilityIncrease());
@@ -58,7 +58,7 @@ void Elf::ElfLanguages::update(Character& character) {
     character.addLanguage("Elvish", true, true, true);
 }
 
-HighElf::HighElf(Selecter& selecter) : Elf() 
+HighElf::HighElf(Selecter& selecter) : Elf(selecter) 
 {
     // Ability Score Increase
     std::shared_ptr<Feat> highElfAbilityIncrease (new HighElfAbilityIncrease());
