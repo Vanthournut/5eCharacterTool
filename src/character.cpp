@@ -16,6 +16,8 @@ Character::Character(string name, char stats[6]){
     currentHP = maxHP;
     speed = 30;
     proficiencyBonus = 2;
+
+    armor = shared_ptr<Armor>(new Unarmored());
 }
 
 string Character::getName() {
@@ -23,7 +25,11 @@ string Character::getName() {
 }
 
 char Character::getArmorClass() {
-    return 10 + this->getAbilityModifier(Stat::Dexterity);
+    char ac = armor->getArmorClass(*this);
+    for(auto modifier : acModifiers) {
+        ac = modifier->modifyArmorClass(*this, ac);
+    }
+    return ac;
 }
 
 ushort Character::getMaxHP() {
@@ -54,6 +60,7 @@ void Character::addFeat(shared_ptr<Feat> feat) {
 void Character::update() {
 
     skillProficiencies = getNewSkillVector();
+    acModifiers.clear();
 
     for(int i = 0; i < 6; i++) {
         abilityScores[i] = startingAbilityScores[i];
@@ -131,3 +138,11 @@ vector<Proficiency> Character::getNewSkillVector() {
 
     return skills;
 }
+
+shared_ptr<Armor> Character::getArmor() {
+    return armor;
+}
+
+void Character::addAcModifier(shared_ptr<ArmorClassModifier> modifier) {
+    acModifiers.push_back(modifier);
+};

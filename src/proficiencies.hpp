@@ -32,13 +32,6 @@ enum Skill : char {
 static vector<string> SKILL_NAME = {"Acrobatics", "Animal Handling", "Arcana", "Athletics", "Deception", "History", "Insight", "Intimidation", \
     "Investigation", "Medicine", "Nature", "Perception", "Performance", "Persuasion", "Religion", "Sleight of Hand", "Stealth", "Survival"};
 
-enum ArmorType : char {
-    LightArmor,
-    MediumArmor,
-    Shield,
-    HeavyArmor
-};
-
 enum ToolType : char {
     ArtisansTool,
     GamingSet,

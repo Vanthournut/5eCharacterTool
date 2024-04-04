@@ -7,6 +7,8 @@
 #include "proficiencies.hpp"
 #include "spellcasting.hpp"
 #include "race.hpp"
+#include "armor.hpp"
+#include "characterClass.hpp"
 
 class Feat;
 class AbilityScoreFeat;
@@ -41,6 +43,10 @@ class Character {
     char abilityScores[6];
     char speed;
 
+    // Equipment
+    shared_ptr<Armor> armor;
+    vector<shared_ptr<ArmorClassModifier>> acModifiers;
+
     Spellcasting spellcasting;
 
     vector<Proficiency> getNewSkillVector();
@@ -52,10 +58,13 @@ class Character {
     ushort getCurrentHP();
     char getAbilityScore(Stat stat);
     char getAbilityModifier(Stat stat);
+    shared_ptr<Armor> getArmor();
     void addFeat(shared_ptr<Feat> feat);
     void addAbilityScore(Stat stat, char quantity);
     void addRace(Race* race);
     
+    void addAcModifier(shared_ptr<ArmorClassModifier> modifier);
+
     bool addSkillProficiency(Skill skill);
     bool addLanguage(string name, bool speak, bool read, bool write);
 

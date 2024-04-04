@@ -1,4 +1,5 @@
 #include "src/character.hpp"
+#include "src/characterClass.hpp"
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -77,6 +78,9 @@ int main() {
         cout << "Failed to create HighElf Class" << endl;
         return -1;
     }
+
+    Barbarian barb;
+    barb.assignStartingClass(c);
 
     c.update();
 
