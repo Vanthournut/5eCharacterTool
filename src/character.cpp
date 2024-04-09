@@ -46,7 +46,7 @@ char Character::getAbilityScore(Stat stat) {
 }
 
 char Character::getAbilityModifier(Stat stat) {
-    return (abilityScores[stat]-10)/2;
+    return floor(((float) abilityScores[stat]-10)/2);
 }
 
 void Character::addFeat(shared_ptr<Feat> feat) {

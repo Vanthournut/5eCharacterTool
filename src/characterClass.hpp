@@ -12,7 +12,7 @@ private:
     char rageDamage;
 
     class BarbarianRage : public Feat {
-        string getName() const override {return "Rage";};
+        string getName() const override {return "Barbarian: Rage";};
         string getDescription() const override {return "In battle, you fight with primal ferocity. On your turn, you can enter a rage as a bonus action. \n\n\
 While raging, you gain the following benefits if you aren't wearing heavy armor: \n\n\
     - You have advantage on Strength checks and Strength saving throws. \n\
@@ -31,7 +31,7 @@ Once you have raged the number of times shown for your barbarian level in the Ra
         };
 
         public:
-        string getName() const override {return "Unarmored Defense (Barbarian)";};
+        string getName() const override {return "Barbarian: Unarmored Defense";};
         string getDescription() const override {return "While you are not wearing any armor, your Armor Class equals 10 + your Dexterity modifier + your Constitution modifier. You can use a shield and still gain this benefit.";};
         void update(Character& character) override;
     };
