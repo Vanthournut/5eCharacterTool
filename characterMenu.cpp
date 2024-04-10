@@ -81,10 +81,10 @@ int main() {
 
     Barbarian barb;
     barb.assignStartingClass(c);
+    system("clear");
 
     c.update();
 
-    system("clear");
 
     cout << c.toString() << endl;
     return 0;

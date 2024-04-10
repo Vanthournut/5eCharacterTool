@@ -25,6 +25,7 @@ class Character {
     string name;
 
     Race* race;
+    vector<CharacterClass*> classes;
 
     // Proficiencies
     char proficiencyBonus;
@@ -37,11 +38,13 @@ class Character {
 
     // Feats & Actions
     vector<shared_ptr<Feat>> feats;
-    ushort maxHP;
-    ushort currentHP;
     char startingAbilityScores[6];
     char abilityScores[6];
     char speed;
+
+    ushort maxHP;
+    ushort currentHP;
+    char level;
 
     // Equipment
     shared_ptr<Armor> armor;
@@ -62,6 +65,7 @@ class Character {
     void addFeat(shared_ptr<Feat> feat);
     void addAbilityScore(Stat stat, char quantity);
     void addRace(Race* race);
+    void addClass(CharacterClass* charClass);
     
     void addAcModifier(shared_ptr<ArmorClassModifier> modifier);
 

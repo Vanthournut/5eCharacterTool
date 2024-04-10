@@ -4,14 +4,33 @@
 #include "armor.hpp"
 #include "feats.hpp"
 
-class Barbarian {
+class CharacterClass {
+    protected:
+    virtual void levelUp(Character& character) = 0;
+    char level;
+    vector<ushort> hpList;
+    
+    public:
+    CharacterClass() {hpList = vector<ushort>(); level = 0;}
+    virtual string getName() = 0;
+    virtual void assignStartingClass(Character& character) = 0;
+    virtual void assignMultiClass(Character& character) = 0;
+    ushort getHp() {ushort hp = 0; for(ushort hpVal : hpList){hp += hpVal;} return hp;}
+    char getLevel() {return level;}
+};
+
+class Barbarian : public CharacterClass {
 
 private:
-    char rages;
-    char maxRages;
-    char rageDamage;
 
     class BarbarianRage : public Feat {
+        private:
+        char rages;
+        char maxRages;
+        char rageDamage;
+
+        public:
+        BarbarianRage();
         string getName() const override {return "Barbarian: Rage";};
         string getDescription() const override {return "In battle, you fight with primal ferocity. On your turn, you can enter a rage as a bonus action. \n\n\
 While raging, you gain the following benefits if you aren't wearing heavy armor: \n\n\
@@ -38,6 +57,8 @@ Once you have raged the number of times shown for your barbarian level in the Ra
 
 public:
     Barbarian();
-    void assignStartingClass(Character& character);
-
+    string getName() override {return "Barbarian";}
+    void assignStartingClass(Character& character) override;
+    void assignMultiClass(Character& character) override {};
+    void levelUp(Character& character) override;
 };

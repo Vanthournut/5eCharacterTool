@@ -12,10 +12,13 @@ Character::Character(string name, char stats[6]){
     }
 
     this->name = name;
-    maxHP = 4;
+    maxHP = 0;
     currentHP = maxHP;
     speed = 30;
     proficiencyBonus = 2;
+
+    level = 0;
+    classes = vector<CharacterClass*>();
 
     armor = shared_ptr<Armor>(new Unarmored());
 }
@@ -58,6 +61,23 @@ void Character::addFeat(shared_ptr<Feat> feat) {
 }
 
 void Character::update() {
+    level = 0;
+
+    // Calculate HP & level from classes
+    if(classes.size() == 0) {
+        maxHP = 4;
+    } else {
+        maxHP = 0;
+        for (auto charClass : classes)
+        {
+            if(charClass != nullptr) {
+                maxHP += charClass->getHp();
+                level += charClass->getLevel();
+            }
+        }
+
+        maxHP += (ushort) (this->getAbilityModifier(Constitution) * level);        
+    }
 
     skillProficiencies = getNewSkillVector();
     acModifiers.clear();
@@ -69,6 +89,8 @@ void Character::update() {
     for(shared_ptr<Feat> feat: feats) {
         feat->update(*this);
     }
+
+    currentHP = maxHP;
 }
 
 void Character::addAbilityScore(Stat stat, char quantity) {
@@ -93,7 +115,22 @@ bool Character::addLanguage(string name, bool speak, bool read, bool write) {
 }
 
 void Character::addRace(Race* race) {
+    if (race == nullptr)
+    {
+        return;
+    }
+    
     race->addTo(*this);
+}
+
+void Character::addClass(CharacterClass* charClass) {
+    this->update();
+    if (charClass == nullptr)
+    {
+        return;
+    }
+    
+    classes.push_back(charClass);
 }
 
 bool Character::isProficient(Skill skill) {
@@ -105,7 +142,20 @@ string Character::toString() {
 
     string output = "";
 
-    output += "Name: " + getName() + "\n\n";
+    output += "Name: " + getName() + "\n";
+
+    if(classes.size() == 0) {
+        output += "Commoner\n\n";
+    } else if(classes.size() == 1) {
+        output += classes[0]->getName() +  ' ' + to_string((int) classes[0]->getLevel()) + "\n\n";        
+    } else {
+        for (int i = 0; i < classes.size(); i++)
+        {
+            output += classes[i]->getName() +  ' ' + to_string((int) classes[i]->getLevel()) + " / ";    
+        }
+        output += classes.back()->getName() +  ' ' + to_string((int) classes.back()->getLevel()) + "\n\n";        
+    }
+
     output += "AC: " + to_string(int(getArmorClass())) + '\n';
     output += "HP: " + to_string(getCurrentHP()) + " / " + to_string(getMaxHP()) + '\n';
 
