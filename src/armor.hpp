@@ -3,11 +3,11 @@
 class Character;
 
 enum ArmorType : char{
-    Clothing,
     Shield,
     LightArmor,
     MediumArmor,
-    HeavyArmor
+    HeavyArmor,
+    Clothing
 };
 
 class Armor {
@@ -22,6 +22,12 @@ class Armor {
 class ArmorClassModifier {
     public:
     virtual char modifyArmorClass(Character& character, char ac) = 0;
+};
+
+class ArmorClassCalculator {
+    public:
+    virtual char calculateArmorClass(Character& character) = 0;
+
 };
 
 class Unarmored : public Armor{

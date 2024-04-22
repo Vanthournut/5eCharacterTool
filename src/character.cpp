@@ -29,6 +29,13 @@ string Character::getName() {
 
 char Character::getArmorClass() {
     char ac = armor->getArmorClass(*this);
+
+    for(auto acCalculator : acCalculators) {
+        if(acCalculator->calculateArmorClass(*this) > ac) {
+            ac = acCalculator->calculateArmorClass(*this);
+        }
+    }
+
     for(auto modifier : acModifiers) {
         ac = modifier->modifyArmorClass(*this, ac);
     }
@@ -108,6 +115,13 @@ bool Character::addSkillProficiency(Skill skill) {
     return true;
 }
 
+void Character::addArmorProficiency(ArmorType armorType) {
+    if (armorType == ArmorType::Clothing)
+    {
+        return;
+    }
+    armorProficiencies[armorType] = true;
+}
 
 bool Character::addLanguage(string name, bool speak, bool read, bool write) {
     languages.push_back(Language(name, speak, read, write));
@@ -135,6 +149,11 @@ void Character::addClass(CharacterClass* charClass) {
 
 bool Character::isProficient(Skill skill) {
     return skillProficiencies[skill].isProficient;
+}
+
+bool Character::isProficient(ArmorType armorType) {
+    if(armorType == ArmorType::Clothing){return true;};
+    return armorProficiencies[armorType];
 }
 
 string Character::toString() {
@@ -195,4 +214,8 @@ shared_ptr<Armor> Character::getArmor() {
 
 void Character::addAcModifier(shared_ptr<ArmorClassModifier> modifier) {
     acModifiers.push_back(modifier);
+};
+
+void Character::addAcCalculator(shared_ptr<ArmorClassCalculator> calculator) {
+    acCalculators.push_back(calculator);
 };

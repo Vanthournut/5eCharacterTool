@@ -33,8 +33,9 @@ class Character {
     vector<Proficiency> skillProficiencies;
     vector<ToolProficiency> toolProficiencies;
     vector<WeaponProficiency> weaponProficiencies;
-    vector<Language> languages;
     bool armorProficiencies[4];
+    
+    vector<Language> languages;
 
     // Feats & Actions
     vector<shared_ptr<Feat>> feats;
@@ -48,6 +49,7 @@ class Character {
 
     // Equipment
     shared_ptr<Armor> armor;
+    vector<shared_ptr<ArmorClassCalculator>> acCalculators;
     vector<shared_ptr<ArmorClassModifier>> acModifiers;
 
     Spellcasting spellcasting;
@@ -56,7 +58,6 @@ class Character {
 
     public:
     string getName();
-    char getArmorClass();
     ushort getMaxHP();
     ushort getCurrentHP();
     char getAbilityScore(Stat stat);
@@ -67,12 +68,20 @@ class Character {
     void addRace(Race* race);
     void addClass(CharacterClass* charClass);
     
+    // Armor Class Functions
     void addAcModifier(shared_ptr<ArmorClassModifier> modifier);
+    void addAcCalculator(shared_ptr<ArmorClassCalculator> calculator);
+    char getArmorClass();
 
-    bool addSkillProficiency(Skill skill);
     bool addLanguage(string name, bool speak, bool read, bool write);
 
+    // Adding Proficiencies
+    bool addSkillProficiency(Skill skill);
+    void addArmorProficiency(ArmorType armorType);
+
+    // Proficiency Checks
     bool isProficient(Skill skill);
+    bool isProficient(ArmorType armorType);
 
     void update();
 

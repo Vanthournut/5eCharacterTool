@@ -3,8 +3,8 @@
 #include "armor.hpp"
 
 void Barbarian::BarbarianUnarmoredDefense::update(Character& character) {
-    shared_ptr<ArmorClassModifier> modifier (new BarbarianUnarmoredDefenseModifier());
-    character.addAcModifier(modifier);
+    shared_ptr<ArmorClassCalculator> calculator (new BarbarianUnarmoredDefenseCalculator());
+    character.addAcCalculator(calculator);
 };
 
 Barbarian::Barbarian() : CharacterClass() {
@@ -20,6 +20,10 @@ void Barbarian::assignStartingClass(Character& character){
 
     character.addFeat(rageFeat);
     character.addFeat(unarmoredDefense);
+
+    character.addArmorProficiency(ArmorType::LightArmor);
+    character.addArmorProficiency(ArmorType::MediumArmor);
+    character.addArmorProficiency(ArmorType::Shield);
 };
 
 void Barbarian::levelUp(Character& character) {
@@ -34,10 +38,12 @@ void Barbarian::BarbarianRage::update(Character& character) {
 
 };
 
-char Barbarian::BarbarianUnarmoredDefense::BarbarianUnarmoredDefenseModifier::modifyArmorClass(Character& character, char ac) {
+char Barbarian::BarbarianUnarmoredDefense::BarbarianUnarmoredDefenseCalculator::calculateArmorClass(Character& character) {
+    char ac = 0;
+    
     if (character.getArmor()->getType() == ArmorType::Clothing)
     {
-        ac += character.getAbilityModifier(Constitution);
+        ac = 10 + character.getAbilityModifier(Dexterity) + character.getAbilityModifier(Constitution);
     }
     
     return ac;
