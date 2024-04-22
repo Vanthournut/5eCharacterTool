@@ -9,6 +9,7 @@
 #include "race.hpp"
 #include "armor.hpp"
 #include "characterClass.hpp"
+#include "weapon.hpp"
 
 class Feat;
 class AbilityScoreFeat;
@@ -32,8 +33,9 @@ class Character {
     bool savingThrowProficiencies[6];
     vector<Proficiency> skillProficiencies;
     vector<ToolProficiency> toolProficiencies;
-    vector<WeaponProficiency> weaponProficiencies;
     bool armorProficiencies[4];
+    bool weaponProficiencies[7];
+    vector<SingleWeaponProficiency> singleWeaponProficiencies;
     
     vector<Language> languages;
 
@@ -78,10 +80,14 @@ class Character {
     // Adding Proficiencies
     bool addSkillProficiency(Skill skill);
     void addArmorProficiency(ArmorType armorType);
+    void addWeaponProficiency(WeaponType weaponType);
+    void addWeaponProficiency(SingleWeaponProficiency weaponType);
 
     // Proficiency Checks
     bool isProficient(Skill skill);
     bool isProficient(ArmorType armorType);
+    bool isProficient(WeaponType weaponType);
+    bool isProficient(SingleWeaponProficiency weaponType);
 
     void update();
 

@@ -131,9 +131,6 @@ class Proficiency {
 class ToolProficiency : public Proficiency {
 };
 
-class WeaponProficiency : public Proficiency {
-};
-
 class Language {
     const string name;
     bool speak;

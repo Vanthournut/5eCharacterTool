@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <algorithm>
 #include "character.hpp"
 #include "proficiencies.hpp"
 #include "feats.hpp"
@@ -123,6 +124,17 @@ void Character::addArmorProficiency(ArmorType armorType) {
     armorProficiencies[armorType] = true;
 }
 
+void Character::addWeaponProficiency(WeaponType weaponType) {
+    weaponProficiencies[weaponType] = true;
+}
+
+void Character::addWeaponProficiency(SingleWeaponProficiency weaponType) {
+    if (!isProficient(weaponType))
+    {
+        singleWeaponProficiencies.push_back(weaponType);
+    }    
+}
+
 bool Character::addLanguage(string name, bool speak, bool read, bool write) {
     languages.push_back(Language(name, speak, read, write));
     return true;
@@ -154,6 +166,14 @@ bool Character::isProficient(Skill skill) {
 bool Character::isProficient(ArmorType armorType) {
     if(armorType == ArmorType::Clothing){return true;};
     return armorProficiencies[armorType];
+}
+
+bool Character::isProficient(WeaponType weaponType) {
+    return weaponProficiencies[weaponType];
+}
+
+bool Character::isProficient(SingleWeaponProficiency weaponType) {
+    return (find(singleWeaponProficiencies.begin(), singleWeaponProficiencies.end(), weaponType) != singleWeaponProficiencies.end());
 }
 
 string Character::toString() {
