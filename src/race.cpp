@@ -110,5 +110,8 @@ void HighElf::HighElfExtraLanguage::update(Character& character) {
 }
 
 void HighElf::HighElfWeapons::update(Character& character) {
-
+    character.addWeaponProficiency(SingleWeaponProficiency("Longsword"));
+    character.addWeaponProficiency(SingleWeaponProficiency("Shortsword"));
+    character.addWeaponProficiency(SingleWeaponProficiency("Shortbow"));
+    character.addWeaponProficiency(SingleWeaponProficiency("Longbow"));
 }

@@ -208,8 +208,53 @@ string Character::toString() {
     {
         output += '\n' + skillProficiencies[i].toStringWithStat(this, getDefaultStat((Skill) i));
     }
-     
 
+    output += "\n\nArmor Proficiencies";
+    if(armorProficiencies[ArmorType::LightArmor]) {
+        output += "\nLight Armor";
+    }
+    if(armorProficiencies[ArmorType::MediumArmor]) {
+        output += "\nMedium Armor";
+    }
+    if(armorProficiencies[ArmorType::HeavyArmor]) {
+        output += "\nHeavy Armor";
+    }
+    if(armorProficiencies[ArmorType::Shield]) {
+        output += "\nShields";
+    }
+
+    output += "\n\nWeapon Proficiencies";
+    if (weaponProficiencies[WeaponType::Improvised])
+    {
+        output += "\nImprovised Weapons";
+    }
+    
+    if(weaponProficiencies[WeaponType::SimpleMelee] && weaponProficiencies[WeaponType::SimpleRanged]) {
+        output += "\nSimple Weapons";
+    } else if(weaponProficiencies[WeaponType::SimpleMelee]) {
+        output += "\nSimple Melee Weapons";
+    } else if(weaponProficiencies[WeaponType::SimpleRanged]) {
+        output += "\nSimple Ranged Weapons";
+    }
+
+    if(weaponProficiencies[WeaponType::MartialMelee] && weaponProficiencies[WeaponType::MartialRanged]) {
+        output += "\nMartial Weapons";
+    } else if(weaponProficiencies[WeaponType::MartialMelee]) {
+        output += "\nMartial Melee Weapons";
+    } else if(weaponProficiencies[WeaponType::SimpleRanged]) {
+        output += "\nMartial Ranged Weapons";
+    }
+
+    if (weaponProficiencies[WeaponType::Firearm])
+    {
+        output += "\nFirearms";
+    }
+    
+
+    for(auto weaponProf : singleWeaponProficiencies) {
+        output += "\n" + weaponProf.name;
+    }
+    
     for(auto feat : feats) {
         output += "\n\n" + feat->toString();
     }

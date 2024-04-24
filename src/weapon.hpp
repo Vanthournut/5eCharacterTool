@@ -3,8 +3,7 @@
 #include <string>
 
 enum WeaponType : char {
-    Unarmed = 0,
-    Improvised,
+    Improvised = 0,
     SimpleMelee,
     SimpleRanged,
     MartialMelee,
@@ -15,6 +14,7 @@ enum WeaponType : char {
 struct SingleWeaponProficiency
 {
     const std::string name;
+    SingleWeaponProficiency(string name) : name(name) {};
     bool operator==(const SingleWeaponProficiency& other) {
         return name == other.name;
     }

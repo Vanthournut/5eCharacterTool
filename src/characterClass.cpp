@@ -24,6 +24,11 @@ void Barbarian::assignStartingClass(Character& character){
     character.addArmorProficiency(ArmorType::LightArmor);
     character.addArmorProficiency(ArmorType::MediumArmor);
     character.addArmorProficiency(ArmorType::Shield);
+
+    character.addWeaponProficiency(WeaponType::SimpleMelee);
+    character.addWeaponProficiency(WeaponType::SimpleRanged);
+    character.addWeaponProficiency(WeaponType::MartialMelee);
+    character.addWeaponProficiency(WeaponType::MartialRanged);
 };
 
 void Barbarian::levelUp(Character& character) {

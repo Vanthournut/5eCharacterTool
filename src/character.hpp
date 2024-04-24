@@ -34,7 +34,7 @@ class Character {
     vector<Proficiency> skillProficiencies;
     vector<ToolProficiency> toolProficiencies;
     bool armorProficiencies[4];
-    bool weaponProficiencies[7];
+    bool weaponProficiencies[6];
     vector<SingleWeaponProficiency> singleWeaponProficiencies;
     
     vector<Language> languages;
