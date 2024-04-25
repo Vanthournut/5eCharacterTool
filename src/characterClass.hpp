@@ -6,15 +6,15 @@
 
 class CharacterClass {
     protected:
-    virtual void levelUp(Character& character) = 0;
     char level;
     vector<ushort> hpList;
     
     public:
     CharacterClass() {hpList = vector<ushort>(); level = 0;}
     virtual string getName() = 0;
-    virtual void assignStartingClass(Character& character) = 0;
-    virtual void assignMultiClass(Character& character) = 0;
+    virtual void assignStartingClass(Character& character, Selecter& selecter) = 0;
+    virtual void assignMultiClass(Character& character, Selecter& selecter) = 0;
+    virtual void levelUp(Character& character, Selecter& selecter) = 0;
     ushort getHp() {ushort hp = 0; for(ushort hpVal : hpList){hp += hpVal;} return hp;}
     char getLevel() {return level;}
 };
@@ -58,7 +58,7 @@ Once you have raged the number of times shown for your barbarian level in the Ra
 public:
     Barbarian();
     string getName() override {return "Barbarian";}
-    void assignStartingClass(Character& character) override;
-    void assignMultiClass(Character& character) override {};
-    void levelUp(Character& character) override;
+    void assignStartingClass(Character& character, Selecter& selecter) override;
+    void assignMultiClass(Character& character, Selecter& selecter) override {};
+    void levelUp(Character& character, Selecter& selecter) override;
 };

@@ -80,7 +80,7 @@ int main() {
     }
 
     Barbarian barb;
-    barb.assignStartingClass(c);
+    barb.assignStartingClass(c, selecter);
     system("clear");
 
     c.update();

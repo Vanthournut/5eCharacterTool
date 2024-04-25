@@ -3,6 +3,7 @@
 #include "dice.hpp"
 #include <vector>
 #include "stat.hpp"
+#include "selecter.hpp"
 
 using namespace std;
 
@@ -114,6 +115,14 @@ static Stat getDefaultStat(Skill skill) {
 
     return defaultSkillStat[skill];
 }
+
+class SkillSelecterItem : public SelecterItem {
+    public:
+    const Skill s;
+    SkillSelecterItem(Skill s) : s(s) {}
+    string getName() const override {return SKILL_NAME[s];};
+    string getDescription() const override {return "";}
+};
 
 class Proficiency {
     string name;
