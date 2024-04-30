@@ -3,11 +3,14 @@
 #include "selecter.hpp"
 #include "armor.hpp"
 #include "feats.hpp"
+#include <memory>
+#include "proficiencies.hpp"
 
 class CharacterClass {
     protected:
     char level;
     vector<ushort> hpList;
+    vector<shared_ptr<Feat>> featList;
     
     public:
     CharacterClass() {hpList = vector<ushort>(); level = 0;}
@@ -22,6 +25,14 @@ class CharacterClass {
 class Barbarian : public CharacterClass {
 
 private:
+    class BarbarianStartingProficiencies : public Feat {        
+        public:
+        vector<Skill> skillList;
+        BarbarianStartingProficiencies() {};
+        string getName() const override {return "Barbarian: Starting Proficiencies";};
+        string getDescription() const override {return "";};
+        void update(Character& character) override;
+    };
 
     class BarbarianRage : public Feat {
         private:

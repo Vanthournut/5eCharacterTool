@@ -14,21 +14,15 @@ void Barbarian::assignStartingClass(Character& character, Selecter& selecter){
     shared_ptr<Feat> rageFeat (new BarbarianRage());
     shared_ptr<Feat> unarmoredDefense (new BarbarianUnarmoredDefense());
 
+    featList.push_back(rageFeat);
+    featList.push_back(unarmoredDefense);
+
     level = 1;
     hpList.push_back(12);
     character.addClass(this);
 
     character.addFeat(rageFeat);
     character.addFeat(unarmoredDefense);
-
-    character.addArmorProficiency(ArmorType::LightArmor);
-    character.addArmorProficiency(ArmorType::MediumArmor);
-    character.addArmorProficiency(ArmorType::Shield);
-
-    character.addWeaponProficiency(WeaponType::SimpleMelee);
-    character.addWeaponProficiency(WeaponType::SimpleRanged);
-    character.addWeaponProficiency(WeaponType::MartialMelee);
-    character.addWeaponProficiency(WeaponType::MartialRanged);
 
     static vector<Skill> startingSkillList{Skill::AnimalHandling, Skill::Athletics, Skill::Intimidation, Skill::Nature, Skill::Perception, Skill::Survival};
 
@@ -51,19 +45,38 @@ void Barbarian::assignStartingClass(Character& character, Selecter& selecter){
     if(results.size() == 0) {
         return;
     }
-
-    character.addSkillProficiency(selectableSkills[results[0]]);
-    character.addSkillProficiency(selectableSkills[results[1]]);
-    cout << SKILL_NAME[selectableSkills[results[0]]] << endl;
-    cout << SKILL_NAME[selectableSkills[results[1]]] << endl;
+    BarbarianStartingProficiencies* startingProficiencies = new BarbarianStartingProficiencies();
+    startingProficiencies->skillList.push_back(selectableSkills[results[0]]);
+    startingProficiencies->skillList.push_back(selectableSkills[results[1]]);
+    featList.push_back(shared_ptr<Feat>(startingProficiencies));
+    character.addFeat(featList.back());
 
     // TODO
-    // Convert additions to feat to allow for proper update
     // Armor/Weapon Profs will need to be reset
 };
 
 void Barbarian::levelUp(Character& character, Selecter& selecter) {
 
+}
+
+void Barbarian::BarbarianStartingProficiencies::update(Character& character) {
+    // Armor Proficiencies
+    character.addArmorProficiency(ArmorType::LightArmor);
+    character.addArmorProficiency(ArmorType::MediumArmor);
+    character.addArmorProficiency(ArmorType::Shield);
+
+    // Weapon Proficiencies
+    character.addWeaponProficiency(WeaponType::SimpleMelee);
+    character.addWeaponProficiency(WeaponType::SimpleRanged);
+    character.addWeaponProficiency(WeaponType::MartialMelee);
+    character.addWeaponProficiency(WeaponType::MartialRanged);
+
+    // Skill Proficiencies
+    for(Skill skill : skillList) {
+        character.addSkillProficiency(skill);
+    }
+
+    // Saving Throws
 }
 
 Barbarian::BarbarianRage::BarbarianRage() {
