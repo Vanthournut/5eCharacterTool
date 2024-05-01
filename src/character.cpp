@@ -65,10 +65,9 @@ void Character::addFeat(shared_ptr<Feat> feat) {
         return;
     }
     feats.push_back(feat);
-    update();
 }
 
-void Character::update() {
+void Character::update(Selecter& selecter, UpdateType uType) {
     level = 0;
 
     // Calculate HP & level from classes
@@ -95,7 +94,7 @@ void Character::update() {
     }
 
     for(shared_ptr<Feat> feat: feats) {
-        feat->update(*this);
+        feat->update(*this, selecter, uType);
     }
 
     currentHP = maxHP;
@@ -154,7 +153,6 @@ void Character::addRace(Race* race) {
 }
 
 void Character::addClass(CharacterClass* charClass) {
-    this->update();
     if (charClass == nullptr)
     {
         return;

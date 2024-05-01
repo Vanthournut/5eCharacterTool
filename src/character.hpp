@@ -90,7 +90,7 @@ class Character {
     bool isProficient(WeaponType weaponType);
     bool isProficient(SingleWeaponProficiency weaponType);
 
-    void update();
+    void update(Selecter& selecter, UpdateType uType);
 
     string toString();
 

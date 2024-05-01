@@ -74,7 +74,7 @@ TEST_CASE("Classless Characters", "[character]") {
                 REQUIRE( c.getAbilityModifier(stat) == modifiers[stat] );
             }
 
-            c.update();
+            c.update(selecter, UpdateType::Refresh);
 
             REQUIRE( (int) c.getArmorClass() == 13 );
             REQUIRE( c.getMaxHP() == 4 );
@@ -110,7 +110,7 @@ TEST_CASE("Classless Characters", "[character]") {
                 REQUIRE( c.getAbilityModifier(stat) == modifiers[stat] );
             }
 
-            c.update();
+            c.update(selecter, UpdateType::Refresh);
 
             REQUIRE( (int) c.getArmorClass() == 13 );
             REQUIRE( c.getMaxHP() == 4 );

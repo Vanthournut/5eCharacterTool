@@ -37,23 +37,23 @@ Elf::Elf(Selecter& selecter) : Race(selecter) {
     feats.push_back(languages);
 }
 
-void Elf::ElfAbilityIncrease::update(Character& character) {
+void Elf::ElfAbilityIncrease::update(Character& character, Selecter& selecter, UpdateType uType) {
     character.addAbilityScore(Stat::Dexterity, 2);
 }
 
-void Elf::ElfKeenSense::update(Character& character) {
+void Elf::ElfKeenSense::update(Character& character, Selecter& selecter, UpdateType uType) {
     character.addSkillProficiency(Skill::Perception);
 }
 
-void Elf::ElfFeyAncestry::update(Character& character) {
+void Elf::ElfFeyAncestry::update(Character& character, Selecter& selecter, UpdateType uType) {
     
 }
 
-void Elf::ElfTrance::update(Character& character) {
+void Elf::ElfTrance::update(Character& character, Selecter& selecter, UpdateType uType) {
 
 }
 
-void Elf::ElfLanguages::update(Character& character) {
+void Elf::ElfLanguages::update(Character& character, Selecter& selecter, UpdateType uType) {
     character.addLanguage("Common", true, true, true);
     character.addLanguage("Elvish", true, true, true);
 }
@@ -86,7 +86,7 @@ HighElf::HighElf(Selecter& selecter) : Elf(selecter)
     feats.push_back(extraLanguage);
 }
 
-void HighElf::HighElfAbilityIncrease::update(Character& character) {
+void HighElf::HighElfAbilityIncrease::update(Character& character, Selecter& selecter, UpdateType uType) {
     character.addAbilityScore(Stat::Intelligence, 1);
 }
 
@@ -100,16 +100,16 @@ HighElf::HighElfCantrip::HighElfCantrip(Spell* spell) {
     this->spellcastingAbilitity = Intelligence;
 }
 
-void HighElf::HighElfCantrip::update(Character& character) {
+void HighElf::HighElfCantrip::update(Character& character, Selecter& selecter, UpdateType uType) {
     attackBonus = character.getAbilityModifier(Intelligence);
     saveDC = 8 + character.getAbilityModifier(Intelligence);
 }
 
-void HighElf::HighElfExtraLanguage::update(Character& character) {
+void HighElf::HighElfExtraLanguage::update(Character& character, Selecter& selecter, UpdateType uType) {
 
 }
 
-void HighElf::HighElfWeapons::update(Character& character) {
+void HighElf::HighElfWeapons::update(Character& character, Selecter& selecter, UpdateType uType) {
     character.addWeaponProficiency(SingleWeaponProficiency("Longsword"));
     character.addWeaponProficiency(SingleWeaponProficiency("Shortsword"));
     character.addWeaponProficiency(SingleWeaponProficiency("Shortbow"));

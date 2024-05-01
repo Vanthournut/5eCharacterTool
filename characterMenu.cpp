@@ -83,7 +83,7 @@ int main() {
     barb.assignStartingClass(c, selecter);
     system("clear");
 
-    c.update();
+    c.update(selecter, UpdateType::Refresh);
 
 
     cout << c.toString() << endl;

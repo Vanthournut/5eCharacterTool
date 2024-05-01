@@ -14,3 +14,13 @@ struct TimeDuration
     TimeMeasurement measure;
     char quantity;
 };
+
+enum UpdateType : char {
+    Refresh = 0,
+    Round,
+    Turn,
+    ShortRest,
+    LongRest,
+    Dawn,
+    Dusk
+};

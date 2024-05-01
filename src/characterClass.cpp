@@ -2,7 +2,7 @@
 #include "character.hpp"
 #include "armor.hpp"
 
-void Barbarian::BarbarianUnarmoredDefense::update(Character& character) {
+void Barbarian::BarbarianUnarmoredDefense::update(Character& character, Selecter& selecter, UpdateType uType) {
     shared_ptr<ArmorClassCalculator> calculator (new BarbarianUnarmoredDefenseCalculator());
     character.addAcCalculator(calculator);
 };
@@ -11,6 +11,8 @@ Barbarian::Barbarian() : CharacterClass() {
 };
 
 void Barbarian::assignStartingClass(Character& character, Selecter& selecter){
+
+    character.update(selecter, UpdateType::Refresh);
 
     level = 1;
     hpList.push_back(12);
@@ -37,6 +39,7 @@ void Barbarian::assignStartingClass(Character& character, Selecter& selecter){
     if(results.size() == 0) {
         return;
     }
+
     BarbarianStartingProficiencies* startingProficiencies = new BarbarianStartingProficiencies();
     startingProficiencies->skillList.push_back(selectableSkills[results[0]]);
     startingProficiencies->skillList.push_back(selectableSkills[results[1]]);
@@ -60,7 +63,7 @@ void Barbarian::levelUp(Character& character, Selecter& selecter) {
 
 }
 
-void Barbarian::BarbarianStartingProficiencies::update(Character& character) {
+void Barbarian::BarbarianStartingProficiencies::update(Character& character, Selecter& selecter, UpdateType uType) {
     // Armor Proficiencies
     character.addArmorProficiency(ArmorType::LightArmor);
     character.addArmorProficiency(ArmorType::MediumArmor);
@@ -86,7 +89,7 @@ Barbarian::BarbarianRage::BarbarianRage() {
     rages, maxRages, rageDamage = 2;
 }
 
-void Barbarian::BarbarianRage::update(Character& character) {
+void Barbarian::BarbarianRage::update(Character& character, Selecter& selecter, UpdateType uType) {
 
 };
 
