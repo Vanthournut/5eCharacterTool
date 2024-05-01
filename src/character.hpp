@@ -79,6 +79,7 @@ class Character {
 
     // Adding Proficiencies
     bool addSkillProficiency(Skill skill);
+    void addSavingThrowProficiency(Stat stat);
     void addArmorProficiency(ArmorType armorType);
     void addWeaponProficiency(WeaponType weaponType);
     void addWeaponProficiency(SingleWeaponProficiency weaponType);

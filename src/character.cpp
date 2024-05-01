@@ -116,6 +116,10 @@ bool Character::addSkillProficiency(Skill skill) {
     return true;
 }
 
+void Character::addSavingThrowProficiency(Stat stat) {
+    savingThrowProficiencies[stat] = true;
+}
+
 void Character::addArmorProficiency(ArmorType armorType) {
     if (armorType == ArmorType::Clothing)
     {
@@ -202,6 +206,13 @@ string Character::toString() {
     {
         output += '\n' + statString[i] + ": " + to_string(int(this->getAbilityScore(Stat(i)))) + "(" + to_string(int(this->getAbilityModifier(Stat(i)))) + ")"; 
     }  
+
+    output += "\n\nSaving Throws";
+    for (char s = 0; s < 6; s++)
+    {
+        output += "\n" + statString[s] + ": " + to_string((int) (getAbilityModifier(Stat{s}) + savingThrowProficiencies[s]*proficiencyBonus));
+    }
+    
 
     output += "\n\nProficiencies";
     for (char i = 0; i < 18; i++)

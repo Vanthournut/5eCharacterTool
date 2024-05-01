@@ -11,18 +11,10 @@ Barbarian::Barbarian() : CharacterClass() {
 };
 
 void Barbarian::assignStartingClass(Character& character, Selecter& selecter){
-    shared_ptr<Feat> rageFeat (new BarbarianRage());
-    shared_ptr<Feat> unarmoredDefense (new BarbarianUnarmoredDefense());
-
-    featList.push_back(rageFeat);
-    featList.push_back(unarmoredDefense);
 
     level = 1;
     hpList.push_back(12);
     character.addClass(this);
-
-    character.addFeat(rageFeat);
-    character.addFeat(unarmoredDefense);
 
     static vector<Skill> startingSkillList{Skill::AnimalHandling, Skill::Athletics, Skill::Intimidation, Skill::Nature, Skill::Perception, Skill::Survival};
 
@@ -51,6 +43,15 @@ void Barbarian::assignStartingClass(Character& character, Selecter& selecter){
     featList.push_back(shared_ptr<Feat>(startingProficiencies));
     character.addFeat(featList.back());
 
+    shared_ptr<Feat> rageFeat (new BarbarianRage());
+    shared_ptr<Feat> unarmoredDefense (new BarbarianUnarmoredDefense());
+
+    featList.push_back(rageFeat);
+    featList.push_back(unarmoredDefense);
+
+    character.addFeat(rageFeat);
+    character.addFeat(unarmoredDefense);
+
     // TODO
     // Armor/Weapon Profs will need to be reset
 };
@@ -77,6 +78,8 @@ void Barbarian::BarbarianStartingProficiencies::update(Character& character) {
     }
 
     // Saving Throws
+    character.addSavingThrowProficiency(Stat::Strength);
+    character.addSavingThrowProficiency(Stat::Constitution);
 }
 
 Barbarian::BarbarianRage::BarbarianRage() {
