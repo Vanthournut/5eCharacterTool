@@ -11,20 +11,24 @@ class CharacterClass {
     char level;
     vector<ushort> hpList;
     vector<shared_ptr<Feat>> featList;
+    virtual void createStartingClass(Character& character, Selecter& selecter) = 0;
+    virtual void createMultiClass(Character& character, Selecter& selecter) = 0;
     
     public:
-    CharacterClass() {hpList = vector<ushort>(); level = 0;}
+    CharacterClass(Character& character, Selecter& selecter, bool isStartingClass) {hpList = vector<ushort>(); level = 0;}
     virtual string getName() = 0;
-    virtual void assignStartingClass(Character& character, Selecter& selecter) = 0;
-    virtual void assignMultiClass(Character& character, Selecter& selecter) = 0;
+    void assign(Character& character);
     virtual void levelUp(Character& character, Selecter& selecter) = 0;
     ushort getHp() {ushort hp = 0; for(ushort hpVal : hpList){hp += hpVal;} return hp;}
     char getLevel() {return level;}
+
+    virtual void save(ostream& o) {};
+    virtual CharacterClass* load(istream& i) {return nullptr;};
 };
 
 class Barbarian : public CharacterClass {
 
-private:
+protected:
     class BarbarianStartingProficiencies : public Feat {        
         public:
         vector<Skill> skillList;
@@ -41,7 +45,7 @@ private:
         char rageDamage;
 
         public:
-        BarbarianRage();
+        BarbarianRage() : rages(2), maxRages(2), rageDamage(2) {};
         string getName() const override {return "Barbarian: Rage";};
         string getDescription() const override {return "In battle, you fight with primal ferocity. On your turn, you can enter a rage as a bonus action. \n\n\
 While raging, you gain the following benefits if you aren't wearing heavy armor: \n\n\
@@ -66,10 +70,11 @@ Once you have raged the number of times shown for your barbarian level in the Ra
         void update(Character& character, Selecter& selecter, UpdateType uType) override;
     };
 
+    void createStartingClass(Character& character, Selecter& selecter) override;
+    void createMultiClass(Character& character, Selecter& selecter) override {};
+
 public:
-    Barbarian();
+    Barbarian(Character& character, Selecter& selecter, bool isStartingClass);
     string getName() override {return "Barbarian";}
-    void assignStartingClass(Character& character, Selecter& selecter) override;
-    void assignMultiClass(Character& character, Selecter& selecter) override {};
     void levelUp(Character& character, Selecter& selecter) override;
 };

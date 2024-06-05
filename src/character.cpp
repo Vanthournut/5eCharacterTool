@@ -4,6 +4,7 @@
 #include "character.hpp"
 #include "proficiencies.hpp"
 #include "feats.hpp"
+#include "sourceList.hpp"
 
 Character::Character(string name, char stats[6]){
         
@@ -21,7 +22,17 @@ Character::Character(string name, char stats[6]){
     level = 0;
     classes = vector<CharacterClass*>();
 
+    skillProficiencies = getNewSkillVector();
+    toolProficiencies = vector<ToolProficiency>();
+    singleWeaponProficiencies = vector<SingleWeaponProficiency>();
+    
+    languages = vector<Language>();
+
+    feats = vector<shared_ptr<Feat>>();
+
     armor = shared_ptr<Armor>(new Unarmored());
+    acCalculators = vector<shared_ptr<ArmorClassCalculator>>();
+    acModifiers = vector<shared_ptr<ArmorClassModifier>>();
 }
 
 string Character::getName() {
@@ -159,6 +170,7 @@ void Character::addClass(CharacterClass* charClass) {
     }
     
     classes.push_back(charClass);
+    charClass->assign(*this);
 }
 
 bool Character::isProficient(Skill skill) {
@@ -209,8 +221,7 @@ string Character::toString() {
     for (char s = 0; s < 6; s++)
     {
         output += "\n" + statString[s] + ": " + to_string((int) (getAbilityModifier(Stat{s}) + savingThrowProficiencies[s]*proficiencyBonus));
-    }
-    
+    }    
 
     output += "\n\nProficiencies";
     for (char i = 0; i < 18; i++)
@@ -231,6 +242,7 @@ string Character::toString() {
     if(armorProficiencies[ArmorType::Shield]) {
         output += "\nShields";
     }
+
 
     output += "\n\nWeapon Proficiencies";
     if (weaponProficiencies[WeaponType::Improvised])
@@ -259,7 +271,6 @@ string Character::toString() {
         output += "\nFirearms";
     }
     
-
     for(auto weaponProf : singleWeaponProficiencies) {
         output += "\n" + weaponProf.name;
     }
@@ -288,8 +299,32 @@ shared_ptr<Armor> Character::getArmor() {
 
 void Character::addAcModifier(shared_ptr<ArmorClassModifier> modifier) {
     acModifiers.push_back(modifier);
-};
+}
 
 void Character::addAcCalculator(shared_ptr<ArmorClassCalculator> calculator) {
     acCalculators.push_back(calculator);
-};
+}
+
+void Character::save(ostream& outputStream) {
+    outputStream << name << '\n';
+    for(int i = 0; i < 6; ++i) {
+        outputStream << startingAbilityScores[i];
+    }
+
+    outputStream << level;
+}
+
+Character* Character::load(istream& inputStream) {
+    string name;
+    std::getline(inputStream, name, '\n');
+    char abilityScores[6];
+    for(int i = 0; i < 6; i++) {
+        abilityScores[i] = inputStream.get();
+    }
+
+    Character* c = new Character(name, abilityScores);
+    c->level = inputStream.get();
+
+
+    return c;
+}

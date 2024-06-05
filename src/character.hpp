@@ -30,11 +30,11 @@ class Character {
 
     // Proficiencies
     char proficiencyBonus;
-    bool savingThrowProficiencies[6];
+    bool savingThrowProficiencies[6] = {};
+    bool armorProficiencies[4] = {};
+    bool weaponProficiencies[6] = {};
     vector<Proficiency> skillProficiencies;
     vector<ToolProficiency> toolProficiencies;
-    bool armorProficiencies[4];
-    bool weaponProficiencies[6];
     vector<SingleWeaponProficiency> singleWeaponProficiencies;
     
     vector<Language> languages;
@@ -94,6 +94,11 @@ class Character {
 
     string toString();
 
+    // Saving and Loading
+    void save(ostream& outputStream);
+    static Character* load(istream& inputStream);
+
     Character(string name, char stats[6] = defaultAbilityScores);
+    Character(istream inputStream){}; // Constructor for loading character from file
 
 };

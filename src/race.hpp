@@ -13,6 +13,9 @@ class Race : public SelecterItem {
 
     public:
     bool addTo(Character& character);
+
+    virtual void save(ostream& o) {};
+    virtual Race* load(istream& i) {return nullptr;};
 };
 
 class Elf : public Race {
@@ -56,6 +59,7 @@ class Elf : public Race {
 class HighElf : public Elf {
     public:
     HighElf(Selecter& selecter);
+    virtual void save(ostream& o) override;
 
     class HighElfAbilityIncrease : public Feat {
         string getName() const override {return "High Elf: Ability Score Increase";};

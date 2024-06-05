@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <limits>
 #include <stack>
+#include <sstream>
+#include "src/sourceBook.hpp"
 
 using namespace std;
 
@@ -79,13 +81,20 @@ int main() {
         return -1;
     }
 
-    Barbarian barb;
-    barb.assignStartingClass(c, selecter);
+    Barbarian barb = Barbarian(c, selecter, true);
     system("clear");
 
     c.update(selecter, UpdateType::Refresh);
 
 
     cout << c.toString() << endl;
+
+    stringstream testStream;
+
+    c.save(testStream);
+    Character* c2 = Character::load(testStream);
+    cout << endl << c2->toString() << endl;
+    delete c2;
+    
     return 0;
 }

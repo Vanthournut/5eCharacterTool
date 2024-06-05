@@ -2,21 +2,27 @@
 #include "character.hpp"
 #include "armor.hpp"
 
+void CharacterClass::assign(Character& character) {
+    for(shared_ptr<Feat> feat : featList) {
+        character.addFeat(feat);
+    }
+}
+
 void Barbarian::BarbarianUnarmoredDefense::update(Character& character, Selecter& selecter, UpdateType uType) {
     shared_ptr<ArmorClassCalculator> calculator (new BarbarianUnarmoredDefenseCalculator());
     character.addAcCalculator(calculator);
 };
 
-Barbarian::Barbarian() : CharacterClass() {
+Barbarian::Barbarian(Character& character, Selecter& selecter, bool isStartingClass) : CharacterClass(character, selecter, isStartingClass) {
+    isStartingClass? this->createStartingClass(character, selecter) : this->createMultiClass(character, selecter);
 };
 
-void Barbarian::assignStartingClass(Character& character, Selecter& selecter){
+void Barbarian::createStartingClass(Character& character, Selecter& selecter){
 
     character.update(selecter, UpdateType::Refresh);
 
     level = 1;
     hpList.push_back(12);
-    character.addClass(this);
 
     static vector<Skill> startingSkillList{Skill::AnimalHandling, Skill::Athletics, Skill::Intimidation, Skill::Nature, Skill::Perception, Skill::Survival};
 
@@ -44,7 +50,6 @@ void Barbarian::assignStartingClass(Character& character, Selecter& selecter){
     startingProficiencies->skillList.push_back(selectableSkills[results[0]]);
     startingProficiencies->skillList.push_back(selectableSkills[results[1]]);
     featList.push_back(shared_ptr<Feat>(startingProficiencies));
-    character.addFeat(featList.back());
 
     shared_ptr<Feat> rageFeat (new BarbarianRage());
     shared_ptr<Feat> unarmoredDefense (new BarbarianUnarmoredDefense());
@@ -52,11 +57,9 @@ void Barbarian::assignStartingClass(Character& character, Selecter& selecter){
     featList.push_back(rageFeat);
     featList.push_back(unarmoredDefense);
 
-    character.addFeat(rageFeat);
-    character.addFeat(unarmoredDefense);
+    character.addClass(this);
 
-    // TODO
-    // Armor/Weapon Profs will need to be reset
+    return;
 };
 
 void Barbarian::levelUp(Character& character, Selecter& selecter) {
@@ -83,10 +86,6 @@ void Barbarian::BarbarianStartingProficiencies::update(Character& character, Sel
     // Saving Throws
     character.addSavingThrowProficiency(Stat::Strength);
     character.addSavingThrowProficiency(Stat::Constitution);
-}
-
-Barbarian::BarbarianRage::BarbarianRage() {
-    rages, maxRages, rageDamage = 2;
 }
 
 void Barbarian::BarbarianRage::update(Character& character, Selecter& selecter, UpdateType uType) {

@@ -115,3 +115,7 @@ void HighElf::HighElfWeapons::update(Character& character, Selecter& selecter, U
     character.addWeaponProficiency(SingleWeaponProficiency("Shortbow"));
     character.addWeaponProficiency(SingleWeaponProficiency("Longbow"));
 }
+
+void HighElf::save(ostream& o) {
+    
+}

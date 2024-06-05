@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 #include "stat.hpp"
 #include "selecter.hpp"
 #include "time.hpp"
@@ -49,6 +50,8 @@ class Spell : public SelecterItem {
     virtual bool isRitual() const = 0;
     virtual SpellComponents getComponents() const = 0;
     virtual vector<string> getTags() const = 0;
+    virtual void save(ostream& o) {};
+    virtual Spell* load(istream& i) {return nullptr;};
 };
 
 class SpellcastingSource {
