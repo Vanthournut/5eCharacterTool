@@ -1,6 +1,7 @@
 #include "characterClass.hpp"
 #include "character.hpp"
 #include "armor.hpp"
+#include "sourceBook.hpp"
 
 void CharacterClass::assign(Character& character) {
     for(shared_ptr<Feat> feat : featList) {
@@ -101,4 +102,48 @@ char Barbarian::BarbarianUnarmoredDefense::BarbarianUnarmoredDefenseCalculator::
     }
     
     return ac;
+};
+
+void Barbarian::save(ostream& o) {
+    o << SRD_IDENTIFYING_STRING << '\n';
+    o << SRD::Classes::Barbarian;
+    o << level;
+    for(ushort hp : hpList) {
+        o << hp;
+    }
+    for(shared_ptr<Feat> feat : featList) {
+        feat->save(o);
+    }
+};
+
+CharacterClass* Barbarian::load(istream& i) {
+    Barbarian* barb = new Barbarian();
+    barb->level = i.get();
+    ushort hp;
+    for(char l = 0; l < barb->level; l++) {
+        barb->hpList.push_back(i.get());
+    }
+
+    bool isStartingClass = i.get();
+
+    if(isStartingClass) {
+        BarbarianStartingProficiencies* startingProficiencies = new BarbarianStartingProficiencies();
+        char selectedSkill = i.get();
+        startingProficiencies->skillList.push_back((Skill) selectedSkill);
+        selectedSkill = i.get();
+        startingProficiencies->skillList.push_back((Skill) selectedSkill);
+        barb->featList.push_back(shared_ptr<Feat>(startingProficiencies));
+    }
+
+    char rages = i.get();
+    char maxRages = i.get();
+    char rageDamage = i.get();
+
+    shared_ptr<Feat> rageFeat (new BarbarianRage());
+    shared_ptr<Feat> unarmoredDefense (new BarbarianUnarmoredDefense());
+
+    barb->featList.push_back(rageFeat);
+    barb->featList.push_back(unarmoredDefense);
+
+    return barb;
 };

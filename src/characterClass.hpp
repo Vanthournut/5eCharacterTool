@@ -8,6 +8,7 @@
 
 class CharacterClass {
     protected:
+    CharacterClass() {};
     char level;
     vector<ushort> hpList;
     vector<shared_ptr<Feat>> featList;
@@ -23,10 +24,11 @@ class CharacterClass {
     char getLevel() {return level;}
 
     virtual void save(ostream& o) {};
-    virtual CharacterClass* load(istream& i) {return nullptr;};
 };
 
 class Barbarian : public CharacterClass {
+private:
+    Barbarian() {};
 
 protected:
     class BarbarianStartingProficiencies : public Feat {        
@@ -36,16 +38,20 @@ protected:
         string getName() const override {return "Barbarian: Starting Proficiencies";};
         string getDescription() const override {return "";};
         void update(Character& character, Selecter& selecter, UpdateType uType) override;
+        void save(ostream& o) override {
+            o << true;
+            for(Skill s : skillList) {
+                o << s;
+            }
+        }
     };
 
     class BarbarianRage : public Feat {
-        private:
+        public:
         char rages;
         char maxRages;
         char rageDamage;
-
-        public:
-        BarbarianRage() : rages(2), maxRages(2), rageDamage(2) {};
+        BarbarianRage(char rages = 2, char maxRages = 2, char rageDamage = 2) : rages(rages), maxRages(maxRages), rageDamage(rageDamage) {};
         string getName() const override {return "Barbarian: Rage";};
         string getDescription() const override {return "In battle, you fight with primal ferocity. On your turn, you can enter a rage as a bonus action. \n\n\
 While raging, you gain the following benefits if you aren't wearing heavy armor: \n\n\
@@ -56,6 +62,9 @@ If you are able to cast spells, you can't cast them or concentrate on them while
 Your rage lasts for 1 minute. It ends early if you are knocked unconscious or if your turn ends and you haven't attacked a hostile creature since your last turn or taken damage since then. You can also end your rage on your turn as a bonus action.\n\n\
 Once you have raged the number of times shown for your barbarian level in the Rages column of the Barbarian table, you must finish a long rest before you can rage again.";};
         void update(Character& character, Selecter& selecter, UpdateType uType) override;
+        void save(ostream& o) override {
+            o << rages << maxRages << rageDamage;
+        }
     };
 
     class BarbarianUnarmoredDefense : public Feat {
@@ -77,4 +86,7 @@ public:
     Barbarian(Character& character, Selecter& selecter, bool isStartingClass);
     string getName() override {return "Barbarian";}
     void levelUp(Character& character, Selecter& selecter) override;
+    
+    void save(ostream& o) override;
+    static CharacterClass* load(istream& i);
 };

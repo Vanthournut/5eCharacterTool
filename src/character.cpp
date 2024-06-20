@@ -312,6 +312,10 @@ void Character::save(ostream& outputStream) {
     }
 
     outputStream << level;
+
+    for(CharacterClass* cClass : classes) {
+        cClass->save(outputStream);
+    }
 }
 
 Character* Character::load(istream& inputStream) {
@@ -324,6 +328,18 @@ Character* Character::load(istream& inputStream) {
 
     Character* c = new Character(name, abilityScores);
     c->level = inputStream.get();
+
+    string sourceString;
+
+    // Load Race
+
+    // Load Class
+    std::getline(inputStream, sourceString, '\n');
+    char classType = inputStream.get();
+    CharacterClass* loadedClass = Barbarian::load(inputStream);
+    c->addClass(loadedClass);
+
+    // Load Background
 
 
     return c;
