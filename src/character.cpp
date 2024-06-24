@@ -5,9 +5,10 @@
 #include "proficiencies.hpp"
 #include "feats.hpp"
 #include "sourceList.hpp"
+#include "sourceBook.hpp"
 
 Character::Character(string name, char stats[6]){
-        
+    loaded = false;
     for(int i = 0; i < 6; ++i) {
         abilityScores[i] = stats[i];
         startingAbilityScores[i] = stats[i];
@@ -20,6 +21,7 @@ Character::Character(string name, char stats[6]){
     proficiencyBonus = 2;
 
     level = 0;
+    race = nullptr;
     classes = vector<CharacterClass*>();
 
     skillProficiencies = getNewSkillVector();
@@ -33,6 +35,16 @@ Character::Character(string name, char stats[6]){
     armor = shared_ptr<Armor>(new Unarmored());
     acCalculators = vector<shared_ptr<ArmorClassCalculator>>();
     acModifiers = vector<shared_ptr<ArmorClassModifier>>();
+}
+
+Character::~Character() {
+    if(loaded) {
+        delete race;
+
+        for(auto cClass : classes) {
+            delete cClass;
+        }
+    }
 }
 
 string Character::getName() {
@@ -117,6 +129,10 @@ void Character::addAbilityScore(Stat stat, char quantity) {
 
 // Will return false if already proficient in skill
 bool Character::addSkillProficiency(Skill skill) {
+    // cout << (int) skill << endl;
+    // cout << skillProficiencies.size() << endl;
+    // int skillIndex = skill;
+    // cout << skillIndex << endl;
     if(skillProficiencies[skill].isProficient) {
         return false;
     }
@@ -327,6 +343,7 @@ Character* Character::load(istream& inputStream) {
     }
 
     Character* c = new Character(name, abilityScores);
+    c->loaded = true;
     c->level = inputStream.get();
 
     string sourceString;
@@ -335,8 +352,8 @@ Character* Character::load(istream& inputStream) {
 
     // Load Class
     std::getline(inputStream, sourceString, '\n');
-    char classType = inputStream.get();
-    CharacterClass* loadedClass = Barbarian::load(inputStream);
+    CharacterClass* loadedClass = SRD_SOURCE.loadClass(inputStream);
+    if(loadedClass == nullptr) {cout << "Load Failed\n";}
     c->addClass(loadedClass);
 
     // Load Background

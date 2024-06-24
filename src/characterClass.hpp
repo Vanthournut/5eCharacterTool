@@ -8,15 +8,16 @@
 
 class CharacterClass {
     protected:
-    CharacterClass() {};
+    CharacterClass() {hpList = vector<char>();featList = vector<shared_ptr<Feat>>();};
     char level;
-    vector<ushort> hpList;
+    bool isStartingClass;
+    vector<char> hpList;
     vector<shared_ptr<Feat>> featList;
     virtual void createStartingClass(Character& character, Selecter& selecter) = 0;
     virtual void createMultiClass(Character& character, Selecter& selecter) = 0;
     
     public:
-    CharacterClass(Character& character, Selecter& selecter, bool isStartingClass) {hpList = vector<ushort>(); level = 0;}
+    CharacterClass(Character& character, Selecter& selecter, bool isStartingClass) {hpList = vector<char>(); level = 0;}
     virtual string getName() = 0;
     void assign(Character& character);
     virtual void levelUp(Character& character, Selecter& selecter) = 0;
@@ -39,7 +40,6 @@ protected:
         string getDescription() const override {return "";};
         void update(Character& character, Selecter& selecter, UpdateType uType) override;
         void save(ostream& o) override {
-            o << true;
             for(Skill s : skillList) {
                 o << s;
             }

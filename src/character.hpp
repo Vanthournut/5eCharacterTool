@@ -23,6 +23,8 @@ class Character {
 
     private:
 
+    bool loaded = false; // Used to determine if loaded from file / istream. Required to correctly clean memory of constructed pointers
+
     string name;
 
     Race* race;
@@ -99,6 +101,6 @@ class Character {
     static Character* load(istream& inputStream);
 
     Character(string name, char stats[6] = defaultAbilityScores);
-    Character(istream inputStream){}; // Constructor for loading character from file
+    ~Character();
 
 };

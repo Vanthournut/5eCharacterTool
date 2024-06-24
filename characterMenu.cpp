@@ -92,10 +92,14 @@ int main() {
     stringstream testStream;
 
     c.save(testStream);
+
     Character* c2 = Character::load(testStream);
     c2->update(selecter, UpdateType::Refresh);
     cout << endl << c2->toString() << endl;
+
     delete c2;
-    
+
+    cout << "end\n";
+
     return 0;
 }

@@ -2,64 +2,35 @@
 #include <string>
 #include <iostream>
 #include <map>
+#include "characterClass.hpp"
+#include "enums.hpp"
 
 using namespace std;
 
 class SourceBook {
     public:
-    virtual Race* loadRace(istream i) = 0;
-    virtual CharacterClass* loadClass(istream i) = 0;
-    virtual Spell* loadSpell(istream i) = 0;
-    virtual Feat* loadFeat(istream i) = 0;
-    virtual bool isSource(const string& sourceIdentifier) = 0;
+    virtual Race* loadRace(istream& i) const = 0;
+    virtual CharacterClass* loadClass(istream& i) const = 0;
+    virtual Spell* loadSpell(istream& i) const = 0;
+    virtual Feat* loadFeat(istream& i) const = 0;
+    virtual bool isSource(const string& sourceIdentifier) const = 0;
 };
 
 static const char* SRD_IDENTIFYING_STRING = "SRD";
 
 class SRD : public SourceBook {
-
     public:
-    bool isSource(const string& sourceIdentifier) override {return sourceIdentifier == SRD_IDENTIFYING_STRING;};
-
-    enum Classes : char {
-        Barbarian = 0,
-        Bard,
-        Cleric,
-        Druid,
-        Fighter,
-        Monk,
-        Paladin,
-        Ranger,
-        Rogue,
-        Sorcerer,
-        Warlock,
-        Wizard
+    SRD() {};
+    Race* loadRace(istream& i) const override {return nullptr;};
+    CharacterClass* loadClass(istream& i) const override {
+        char loadedClass = i.get();
+        if((SRDEnums::Classes) loadedClass == SRDEnums::Barbarian) {return Barbarian::load(i);}
+        return nullptr;
     };
-
-    enum Cantrips : char {
-        AcidSplash = 0,
-        ChillTouch,
-        DancingLights,
-        Druidcraft,
-        EldritchBlast,
-        FireBolt,
-        Guidance,
-        Light,
-        MageHand,
-        Mending,
-        Message,
-        MinorIllusion,
-        PoisonSpray,
-        Prestidigitation,
-        ProduceFlame,
-        RayOfFrost,
-        Resistance,
-        SacredFlame,
-        Shillelagh,
-        ShockingGrasp,
-        SpareTheDying,
-        Thaumaturgy,
-        TrueStrike,
-        ViciousMockery
-    };
+    Spell* loadSpell(istream& i) const override {return nullptr;};
+    Feat* loadFeat(istream& i) const override {return nullptr;};
+    bool isSource(const string& sourceIdentifier) const override {return sourceIdentifier == SRD_IDENTIFYING_STRING;};
+    
 };
+
+static const SRD SRD_SOURCE;

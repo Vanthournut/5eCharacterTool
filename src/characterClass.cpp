@@ -24,6 +24,7 @@ void Barbarian::createStartingClass(Character& character, Selecter& selecter){
 
     level = 1;
     hpList.push_back(12);
+    isStartingClass = true;
 
     static vector<Skill> startingSkillList{Skill::AnimalHandling, Skill::Athletics, Skill::Intimidation, Skill::Nature, Skill::Perception, Skill::Survival};
 
@@ -105,10 +106,13 @@ char Barbarian::BarbarianUnarmoredDefense::BarbarianUnarmoredDefenseCalculator::
 };
 
 void Barbarian::save(ostream& o) {
+    cout << "Saving\n";
     o << SRD_IDENTIFYING_STRING << '\n';
-    o << SRD::Classes::Barbarian;
+    o << SRDEnums::Barbarian;
+    o << isStartingClass;
     o << level;
-    for(ushort hp : hpList) {
+    for(char hp : hpList) {
+        cout << hp << endl;
         o << hp;
     }
     for(shared_ptr<Feat> feat : featList) {
@@ -117,16 +121,21 @@ void Barbarian::save(ostream& o) {
 };
 
 CharacterClass* Barbarian::load(istream& i) {
+    cout << "Loading\n";
     Barbarian* barb = new Barbarian();
+    barb->isStartingClass = i.get();
     barb->level = i.get();
-    ushort hp;
+    // barb->level = 1;
+    
+    // cout << i.good() << endl;
+
+    char hp;
     for(char l = 0; l < barb->level; l++) {
-        barb->hpList.push_back(i.get());
+        hp = i.get();
+        barb->hpList.push_back(hp);
     }
 
-    bool isStartingClass = i.get();
-
-    if(isStartingClass) {
+    if(barb->isStartingClass) {
         BarbarianStartingProficiencies* startingProficiencies = new BarbarianStartingProficiencies();
         char selectedSkill = i.get();
         startingProficiencies->skillList.push_back((Skill) selectedSkill);
