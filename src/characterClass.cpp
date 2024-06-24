@@ -94,7 +94,7 @@ void Barbarian::BarbarianRage::update(Character& character, Selecter& selecter, 
 
 };
 
-char Barbarian::BarbarianUnarmoredDefense::BarbarianUnarmoredDefenseCalculator::calculateArmorClass(Character& character) {
+char Barbarian::BarbarianUnarmoredDefense::BarbarianUnarmoredDefenseCalculator::calculateArmorClass(const Character& character) {
     char ac = 0;
     
     if (character.getArmor()->getType() == ArmorType::Clothing)
@@ -106,7 +106,6 @@ char Barbarian::BarbarianUnarmoredDefense::BarbarianUnarmoredDefenseCalculator::
 };
 
 void Barbarian::save(ostream& o) {
-    cout << "Saving\n";
     o << SRD_IDENTIFYING_STRING << '\n';
     o << SRDEnums::Barbarian;
     o << isStartingClass;
@@ -121,13 +120,9 @@ void Barbarian::save(ostream& o) {
 };
 
 CharacterClass* Barbarian::load(istream& i) {
-    cout << "Loading\n";
     Barbarian* barb = new Barbarian();
     barb->isStartingClass = i.get();
     barb->level = i.get();
-    // barb->level = 1;
-    
-    // cout << i.good() << endl;
 
     char hp;
     for(char l = 0; l < barb->level; l++) {

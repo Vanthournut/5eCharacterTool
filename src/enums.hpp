@@ -1,5 +1,7 @@
 #pragma once
 
+static const char* SRD_IDENTIFYING_STRING = "SRD";
+
 namespace SRDEnums {
     enum Classes : char {
         Barbarian = 0,

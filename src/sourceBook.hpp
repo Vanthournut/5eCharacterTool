@@ -16,8 +16,6 @@ class SourceBook {
     virtual bool isSource(const string& sourceIdentifier) const = 0;
 };
 
-static const char* SRD_IDENTIFYING_STRING = "SRD";
-
 class SRD : public SourceBook {
     public:
     SRD() {};

@@ -7,7 +7,7 @@
 #include "sourceList.hpp"
 #include "sourceBook.hpp"
 
-Character::Character(string name, char stats[6]){
+Character::Character(string name, char stats[6]) {
     loaded = false;
     for(int i = 0; i < 6; ++i) {
         abilityScores[i] = stats[i];
@@ -47,11 +47,11 @@ Character::~Character() {
     }
 }
 
-string Character::getName() {
+string Character::getName() const {
     return name;
 }
 
-char Character::getArmorClass() {
+char Character::getArmorClass() const {
     char ac = armor->getArmorClass(*this);
 
     for(auto acCalculator : acCalculators) {
@@ -66,20 +66,19 @@ char Character::getArmorClass() {
     return ac;
 }
 
-ushort Character::getMaxHP() {
+ushort Character::getMaxHP() const {
     return maxHP;
 }
 
-ushort Character::getCurrentHP()
-{
+ushort Character::getCurrentHP() const {
     return currentHP;
 }
 
-char Character::getAbilityScore(Stat stat) {
+char Character::getAbilityScore(Stat stat) const {
     return abilityScores[stat];
 }
 
-char Character::getAbilityModifier(Stat stat) {
+char Character::getAbilityModifier(Stat stat) const {
     return floor(((float) abilityScores[stat]-10)/2);
 }
 
@@ -189,24 +188,24 @@ void Character::addClass(CharacterClass* charClass) {
     charClass->assign(*this);
 }
 
-bool Character::isProficient(Skill skill) {
+bool Character::isProficient(Skill skill) const {
     return skillProficiencies[skill].isProficient;
 }
 
-bool Character::isProficient(ArmorType armorType) {
+bool Character::isProficient(ArmorType armorType) const {
     if(armorType == ArmorType::Clothing){return true;};
     return armorProficiencies[armorType];
 }
 
-bool Character::isProficient(WeaponType weaponType) {
+bool Character::isProficient(WeaponType weaponType) const {
     return weaponProficiencies[weaponType];
 }
 
-bool Character::isProficient(SingleWeaponProficiency weaponType) {
+bool Character::isProficient(SingleWeaponProficiency weaponType) const {
     return (find(singleWeaponProficiencies.begin(), singleWeaponProficiencies.end(), weaponType) != singleWeaponProficiencies.end());
 }
 
-string Character::toString() {
+string Character::toString() const {
     static string statString[6] = {"STR", "DEX", "CON", "INT", "WIS", "CHA"};
 
     string output = "";
@@ -242,7 +241,7 @@ string Character::toString() {
     output += "\n\nProficiencies";
     for (char i = 0; i < 18; i++)
     {
-        output += '\n' + skillProficiencies[i].toStringWithStat(this, getDefaultStat((Skill) i));
+        output += '\n' + skillProficiencies[i].toStringWithStat(*this, getDefaultStat((Skill) i));
     }
 
     output += "\n\nArmor Proficiencies";
@@ -309,7 +308,7 @@ vector<Proficiency> Character::getNewSkillVector() {
     return skills;
 }
 
-shared_ptr<Armor> Character::getArmor() {
+shared_ptr<Armor> Character::getArmor() const {
     return armor;
 }
 

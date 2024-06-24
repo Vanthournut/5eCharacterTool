@@ -61,12 +61,12 @@ class Character {
     vector<Proficiency> getNewSkillVector();
 
     public:
-    string getName();
-    ushort getMaxHP();
-    ushort getCurrentHP();
-    char getAbilityScore(Stat stat);
-    char getAbilityModifier(Stat stat);
-    shared_ptr<Armor> getArmor();
+    string getName() const;
+    ushort getMaxHP() const;
+    ushort getCurrentHP() const;
+    char getAbilityScore(Stat stat) const;
+    char getAbilityModifier(Stat stat) const;
+    shared_ptr<Armor> getArmor() const;
     void addFeat(shared_ptr<Feat> feat);
     void addAbilityScore(Stat stat, char quantity);
     void addRace(Race* race);
@@ -75,7 +75,7 @@ class Character {
     // Armor Class Functions
     void addAcModifier(shared_ptr<ArmorClassModifier> modifier);
     void addAcCalculator(shared_ptr<ArmorClassCalculator> calculator);
-    char getArmorClass();
+    char getArmorClass() const;
 
     bool addLanguage(string name, bool speak, bool read, bool write);
 
@@ -87,18 +87,22 @@ class Character {
     void addWeaponProficiency(SingleWeaponProficiency weaponType);
 
     // Proficiency Checks
-    bool isProficient(Skill skill);
-    bool isProficient(ArmorType armorType);
-    bool isProficient(WeaponType weaponType);
-    bool isProficient(SingleWeaponProficiency weaponType);
+    bool isProficient(Skill skill) const;
+    bool isProficient(ArmorType armorType) const;
+    bool isProficient(WeaponType weaponType) const;
+    bool isProficient(SingleWeaponProficiency weaponType) const;
 
     void update(Selecter& selecter, UpdateType uType);
 
-    string toString();
+    string toString() const;
 
     // Saving and Loading
     void save(ostream& outputStream);
     static Character* load(istream& inputStream);
+
+    bool operator==(const Character& c2) {
+        return toString() == c2.toString();
+    }
 
     Character(string name, char stats[6] = defaultAbilityScores);
     ~Character();

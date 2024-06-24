@@ -15,7 +15,7 @@ struct SingleWeaponProficiency
 {
     const std::string name;
     SingleWeaponProficiency(string name) : name(name) {};
-    bool operator==(const SingleWeaponProficiency& other) {
+    bool operator==(const SingleWeaponProficiency& other) const{
         return name == other.name;
     }
 };

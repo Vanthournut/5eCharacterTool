@@ -70,7 +70,7 @@ Once you have raged the number of times shown for your barbarian level in the Ra
     class BarbarianUnarmoredDefense : public Feat {
         private:
         class BarbarianUnarmoredDefenseCalculator : public ArmorClassCalculator {
-            char calculateArmorClass(Character& character) override;
+            char calculateArmorClass(const Character& character) override;
         };
 
         public:

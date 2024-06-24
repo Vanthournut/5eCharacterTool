@@ -133,8 +133,8 @@ class Proficiency {
 
     Proficiency(string name) : name(name), isProficient(false) {};
 
-    string toString();
-    string toStringWithStat(Character* c, Stat stat);
+    string toString() const;
+    string toStringWithStat(const Character& c, Stat stat) const;
 };
 
 class ToolProficiency : public Proficiency {

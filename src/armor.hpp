@@ -15,23 +15,23 @@ class Armor {
     ArmorType armorType;
 
     public:
-    virtual char getArmorClass(Character& character) = 0;
+    virtual char getArmorClass(const Character& character) = 0;
     ArmorType getType() {return armorType;};
 };
 
 class ArmorClassModifier {
     public:
-    virtual char modifyArmorClass(Character& character, char ac) = 0;
+    virtual char modifyArmorClass(const Character& character, char ac) = 0;
 };
 
 class ArmorClassCalculator {
     public:
-    virtual char calculateArmorClass(Character& character) = 0;
+    virtual char calculateArmorClass(const Character& character) = 0;
 
 };
 
 class Unarmored : public Armor{
     public:
     Unarmored() {armorType = Clothing;};
-    char getArmorClass(Character& character) override;
+    char getArmorClass(const Character& character) override;
 };

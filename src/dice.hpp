@@ -34,7 +34,7 @@ class DicePool {
     DicePool() {for(int i = 0; i < 7; i++){this->pool[i] = 0;}};
     DicePool(char pool[7]) {for(int i = 0; i < 7; i++){this->pool[i] = pool[i];}};
     char pool[7];
-    std::string toString(){
+    std::string toString() const {
         std::string output = "";
         
         // for (int i = 0; i < 7; i++)
