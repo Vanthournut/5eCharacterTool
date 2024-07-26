@@ -2,6 +2,11 @@
 #include "character.hpp"
 #include "selecter.hpp"
 #include "spellcasting.hpp"
+#include "enums.hpp"
+
+Race::Race() {
+    feats = vector<shared_ptr<Feat>>();
+}
 
 Race::Race(Selecter& selecter) {
     feats = vector<shared_ptr<Feat>>();
@@ -12,6 +17,29 @@ bool Race::addTo(Character& character) {
         character.addFeat(feat);
     }
     return true;
+}
+
+Elf::Elf() : Race() {
+
+    // Ability Score Increase
+    std::shared_ptr<Feat> abilityIncrease (new ElfAbilityIncrease());
+    feats.push_back(abilityIncrease);
+
+    // Keen Sense
+    std::shared_ptr<Feat> keenSense (new ElfKeenSense());
+    feats.push_back(keenSense);
+
+    // Fey Ancestry
+    std::shared_ptr<Feat> feyAncestry (new ElfFeyAncestry());
+    feats.push_back(feyAncestry);
+
+    // Trance
+    std::shared_ptr<Feat> trance (new ElfTrance());
+    feats.push_back(trance);
+
+    // Languages
+    std::shared_ptr<Feat> languages (new ElfLanguages());
+    feats.push_back(languages);
 }
 
 Elf::Elf(Selecter& selecter) : Race(selecter) {
@@ -105,6 +133,10 @@ void HighElf::HighElfCantrip::update(Character& character, Selecter& selecter, U
     saveDC = 8 + character.getAbilityModifier(Intelligence);
 }
 
+void HighElf::HighElfCantrip::save(ostream& o) {
+    spells.front()->save(o);
+};
+
 void HighElf::HighElfExtraLanguage::update(Character& character, Selecter& selecter, UpdateType uType) {
 
 }
@@ -117,5 +149,32 @@ void HighElf::HighElfWeapons::update(Character& character, Selecter& selecter, U
 }
 
 void HighElf::save(ostream& o) {
-    
+    o << SRD_IDENTIFYING_STRING << '\n';
+    o << SRDEnums::Type::Race;
+    o << SRDEnums::Races::HighElf;
+    for(auto feat : feats) {
+        feat->save(o);
+    }
+}
+
+Race* HighElf::load(istream& i) {
+    HighElf* r = new HighElf();
+
+    // Ability Score Increase
+    std::shared_ptr<Feat> highElfAbilityIncrease (new HighElfAbilityIncrease());
+    r->feats.push_back(highElfAbilityIncrease);
+
+    // Cantrip
+    // std::shared_ptr<Feat> cantrip (new HighElfCantrip(spell));
+    // r->feats.push_back(cantrip);
+
+    // Weapons
+    std::shared_ptr<Feat> weapons (new HighElfWeapons());
+    r->feats.push_back(weapons);
+
+    // Language
+    std::shared_ptr<Feat> extraLanguage (new HighElfExtraLanguage());
+    r->feats.push_back(extraLanguage);
+
+    return nullptr;
 }

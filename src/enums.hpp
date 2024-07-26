@@ -3,6 +3,16 @@
 static const char* SRD_IDENTIFYING_STRING = "SRD";
 
 namespace SRDEnums {
+    enum Type : char {
+        Class = 0,
+        Subclass,
+        Race,
+        Background,
+        Feat,
+        Equipment,
+        Spell
+    };
+
     enum Classes : char {
         Barbarian = 0,
         Bard,
@@ -16,6 +26,10 @@ namespace SRDEnums {
         Sorcerer,
         Warlock,
         Wizard
+    };
+
+    enum Races : char {
+        HighElf = 0
     };
 
     enum Cantrips : char {

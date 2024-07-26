@@ -9,16 +9,19 @@ class Character;
 class Race : public SelecterItem {
     protected :
     vector<shared_ptr<Feat>> feats;
+    Race();
     Race(Selecter& selecter);
 
     public:
     bool addTo(Character& character);
 
     virtual void save(ostream& o) {};
-    virtual Race* load(istream& i) {return nullptr;};
 };
 
 class Elf : public Race {
+    protected:
+    Elf();
+
     public:
     Elf(Selecter& selecter);
     string getName() const override {return "Elf";}
@@ -57,9 +60,11 @@ class Elf : public Race {
 };
 
 class HighElf : public Elf {
+    private:
+    HighElf() {};
+
     public:
     HighElf(Selecter& selecter);
-    virtual void save(ostream& o) override;
 
     class HighElfAbilityIncrease : public Feat {
         string getName() const override {return "High Elf: Ability Score Increase";};
@@ -79,6 +84,7 @@ class HighElf : public Elf {
         string getName() const override {return "High Elf: Cantrip";};
         string getDescription() const override {return "You know one cantrip of your choice from the wizard spell list (" + spells.front()->getName() + "). Intelligence is your spellcasting ability for it.";};
         void update(Character& character, Selecter& selecter, UpdateType uType) override;
+        void save(ostream& o) override;
     };
 
     class HighElfExtraLanguage : public Feat {
@@ -86,4 +92,7 @@ class HighElf : public Elf {
         string getDescription() const override {return "You can speak, read, and write one extra language of your choosing.";};
         void update(Character& character, Selecter& selecter, UpdateType uType) override;
     };
+
+    void save(ostream& o) override;
+    static Race* load(istream& i);
 };

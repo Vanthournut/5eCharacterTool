@@ -101,5 +101,17 @@ int main() {
 
     cout << "end\n";
 
+    SRD srd;
+    AcidSplash acidSplash;
+    stringstream spellTestStream;
+    acidSplash.save(spellTestStream);
+    string sourceStringPlaceholder;
+    getline(spellTestStream, sourceStringPlaceholder);
+    Spell* loadedSpell = srd.loadSpell(spellTestStream);
+
+    cout << loadedSpell->getName();
+
+    delete loadedSpell;
+
     return 0;
 }
