@@ -10,6 +10,7 @@
 #include "armor.hpp"
 #include "characterClass.hpp"
 #include "weapon.hpp"
+#include "sourceBook.hpp"
 
 class Feat;
 class AbilityScoreFeat;

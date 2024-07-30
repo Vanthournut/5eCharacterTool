@@ -50,20 +50,30 @@ class SRD : public SourceBook {
 
     public:
     SRD() {};
-    Race* loadRace(istream& i) const override {return nullptr;};
+    Race* loadRace(istream& i) const override {
+        char loadedRace = i.get();
+        if (loadedRace == SRDEnums::HighElf)
+        {
+            return HighElf::load(i);
+        }
+        
+        return nullptr;
+    };
     CharacterClass* loadClass(istream& i) const override {
         char loadedClass = i.get();
-        if((SRDEnums::Classes) loadedClass == SRDEnums::Barbarian) {return Barbarian::load(i);}
+        if(loadedClass == SRDEnums::Barbarian) {return Barbarian::load(i);}
         return nullptr;
     };
     Spell* loadSpell(istream& i) const override {
         char spellLevel = i.get();
         char spellEnum = i.get();
+        cout << (int) spellLevel << endl;
+        cout << (int) spellEnum << endl;
         if (spellLevel > SpellLevel::Nineth || spellFactory[spellLevel].find(spellEnum) == spellFactory[spellLevel].end())
         {
             return nullptr;
         }
-        
+        cout << "Spell Loaded\n";
         return spellFactory[spellLevel].find(spellEnum)->second(i);
     };
     Feat* loadFeat(istream& i) const override {return nullptr;};

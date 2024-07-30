@@ -65,6 +65,7 @@ class HighElf : public Elf {
 
     public:
     HighElf(Selecter& selecter);
+    string getName() const override {return "High Elf";}
 
     class HighElfAbilityIncrease : public Feat {
         string getName() const override {return "High Elf: Ability Score Increase";};

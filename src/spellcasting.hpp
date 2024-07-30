@@ -53,7 +53,7 @@ class Spell : public SelecterItem {
     virtual SpellComponents getComponents() const = 0;
     virtual vector<string> getTags() const = 0;
     virtual void save(ostream& o) const {};
-    // static Spell* load(istream& i) {return nullptr;};
+    virtual Spell* copy() const = 0;
 };
 
 class SpellcastingSource {
@@ -62,6 +62,8 @@ class SpellcastingSource {
     char saveDC;
     Stat spellcastingAbilitity;
     vector<Spell*> spells;
+    public:
+    ~SpellcastingSource() {for(Spell* spell : spells) {delete spell;}};
 };
 
 class SpellSlotSource : public SelecterItem {
@@ -102,6 +104,7 @@ class AcidSplash : public Spell {
     vector<string> getTags() const override {return vector<string>();};
     void save(ostream& o) const override {o << SRD_IDENTIFYING_STRING << '\n' << Cantrip << SRDEnums::AcidSplash;}
     static Spell* load(istream& i) {return new AcidSplash();};
+    Spell* copy() const override {return new AcidSplash();}
 };
 
 static AcidSplash ACID_SPLASH = AcidSplash();
@@ -121,6 +124,7 @@ This spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level 
     vector<string> getTags() const override {return vector<string>();};
     void save(ostream& o) const override {o << SRD_IDENTIFYING_STRING << '\n' << Cantrip << SRDEnums::ChillTouch;}
     static Spell* load(istream& i) {return new ChillTouch();};
+    Spell* copy() const override {return new ChillTouch();}
 };
 
 static ChillTouch CHILL_TOUCH = ChillTouch();
@@ -139,6 +143,7 @@ As a bonus action on your turn, you can move the lights up to 60 feet to a new s
     vector<string> getTags() const override {return vector<string>();};
     void save(ostream& o) const override {o << SRD_IDENTIFYING_STRING << '\n' << Cantrip << SRDEnums::DancingLights;}
     static Spell* load(istream& i) {return new DancingLights();};
+    Spell* copy() const override {return new DancingLights();}
 };
 
 static DancingLights DANCING_LIGHTS = DancingLights();
@@ -157,6 +162,7 @@ This spell's damage increases by 1d10 when you reach 5th level (2d10), 11th leve
     vector<string> getTags() const override {return vector<string>();};
     void save(ostream& o) const override {o << SRD_IDENTIFYING_STRING << '\n' << Cantrip << SRDEnums::FireBolt;}
     static Spell* load(istream& i) {return new FireBolt();};
+    Spell* copy() const override {return new FireBolt();}
 };
 
 static FireBolt FIRE_BOLT = FireBolt();
@@ -175,6 +181,7 @@ If you target an object held or worn by a hostile creature, that creature must s
     vector<string> getTags() const override {return vector<string>();};
     void save(ostream& o) const override {o << SRD_IDENTIFYING_STRING << '\n' << Cantrip << SRDEnums::Light;}
     static Spell* load(istream& i) {return new Light();};
+    Spell* copy() const override {return new Light();}
 };
 
 static Light LIGHT = Light();
@@ -192,8 +199,9 @@ The hand can't attack, activate magic items, or carry more than 10 pounds.";};
     bool isRitual() const override {return false;};
     SpellComponents getComponents() const override {return SpellComponents{true, true, "", false};};
     vector<string> getTags() const override {return vector<string>();};
-    void save(ostream& o)  const override {o << SRD_IDENTIFYING_STRING << '\n' << Cantrip << SRDEnums::MageHand;}
+    void save(ostream& o)  const override {cout << "Saving Mage Hand\n"; o << SRD_IDENTIFYING_STRING << '\n' << Cantrip << SRDEnums::MageHand;}
     static Spell* load(istream& i) {return new MageHand();};
+    Spell* copy() const override {return new MageHand();}
 };
 
 static MageHand MAGE_HAND = MageHand();
@@ -212,6 +220,7 @@ This spell can physically repair a magic item or construct, but the spell can't 
     vector<string> getTags() const override {return vector<string>();};
     void save(ostream& o) const override {o << SRD_IDENTIFYING_STRING << '\n' << Cantrip << SRDEnums::Mending;}
     static Spell* load(istream& i) {return new Mending();};
+    Spell* copy() const override {return new Mending();}
 };
 
 static Mending MENDING = Mending();
@@ -230,6 +239,7 @@ You can cast this spell through solid objects if you are familiar with the targe
     vector<string> getTags() const override {return vector<string>();};
     void save(ostream& o) const override {o << SRD_IDENTIFYING_STRING << '\n' << Cantrip << SRDEnums::Message;}
     static Spell* load(istream& i) {return new Message();};
+    Spell* copy() const override {return new Message();}
 };
 
 static Message MESSAGE = Message();
@@ -250,6 +260,7 @@ If a creature uses its action to examine the sound or image, the creature can de
     vector<string> getTags() const override {return vector<string>();};
     void save(ostream& o) const override {o << SRD_IDENTIFYING_STRING << '\n' << Cantrip << SRDEnums::MinorIllusion;}
     static Spell* load(istream& i) {return new MinorIllusion();};
+    Spell* copy() const override {return new MinorIllusion();}
 };
 
 static MinorIllusion MINOR_ILLUSION = MinorIllusion();
@@ -268,6 +279,7 @@ This spell's damage increases by 1d12 when you reach 5th level (2d12), 11th leve
     vector<string> getTags() const override {return vector<string>();};
     void save(ostream& o) const override {o << SRD_IDENTIFYING_STRING << '\n' << Cantrip << SRDEnums::PoisonSpray;}
     static Spell* load(istream& i) {return new PoisonSpray();};
+    Spell* copy() const override {return new PoisonSpray();}
 };
 
 static PoisonSpray POISON_SPRAY = PoisonSpray();
@@ -292,6 +304,7 @@ If you cast this spell multiple times, you can have up to three of its non-insta
     vector<string> getTags() const override {return vector<string>();};
     void save(ostream& o) const override {o << SRD_IDENTIFYING_STRING << '\n' << Cantrip << SRDEnums::Prestidigitation;}
     static Spell* load(istream& i) {return new Prestidigitation();};
+    Spell* copy() const override {return new Prestidigitation();}
 };
 
 static Prestidigitation PRESTIDIGITATION = Prestidigitation();
@@ -310,6 +323,7 @@ The spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (
     vector<string> getTags() const override {return vector<string>();};
     void save(ostream& o) const override {o << SRD_IDENTIFYING_STRING << '\n' << Cantrip << SRDEnums::RayOfFrost;}
     static Spell* load(istream& i) {return new RayOfFrost();};
+    Spell* copy() const override {return new RayOfFrost();}
 };
 
 static RayOfFrost RAY_OF_FROST = RayOfFrost();
@@ -328,6 +342,7 @@ The spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (
     vector<string> getTags() const override {return vector<string>();};
     void save(ostream& o) const override {o << SRD_IDENTIFYING_STRING << '\n' << Cantrip << SRDEnums::ShockingGrasp;}
     static Spell* load(istream& i) {return new ShockingGrasp();};
+    Spell* copy() const override {return new ShockingGrasp();}
 };
 
 static ShockingGrasp SHOCKING_GRASP = ShockingGrasp();
@@ -345,6 +360,7 @@ class TrueStrike : public Spell {
     vector<string> getTags() const override {return vector<string>();};
     void save(ostream& o) const override {o << SRD_IDENTIFYING_STRING << '\n' << Cantrip << SRDEnums::TrueStrike;}
     static Spell* load(istream& i) {return new TrueStrike();};
+    Spell* copy() const override {return new TrueStrike();}
 };
 
 static TrueStrike TRUE_STRIKE = TrueStrike();

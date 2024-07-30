@@ -73,13 +73,29 @@ int main() {
     Character c(name, stats);
 
     ConsoleSelecter selecter;
-    try{
-        HighElf e(selecter);
-        c.addRace(&e);
-    } catch(...) {
-        cout << "Failed to create HighElf Class" << endl;
+
+    HighElf e(selecter);
+    if (&e == nullptr)
+    {
+        cout << "High Elf Object does not exist\n";
         return -1;
     }
+    
+    // stringstream raceTestStream;
+    // e.save(raceTestStream);
+    // string sourceStringPlaceholder;
+    // getline(raceTestStream, sourceStringPlaceholder);
+    // Race* loadedRace = SRD_SOURCE.loadRace(raceTestStream);
+
+    // cout << loadedRace->getName();
+
+    // delete loadedRace;
+
+    c.addRace(&e);
+
+    // return 0;
+
+
 
     Barbarian barb = Barbarian(c, selecter, true);
     system("clear");
@@ -97,21 +113,23 @@ int main() {
     c2->update(selecter, UpdateType::Refresh);
     cout << endl << c2->toString() << endl;
 
+    if(c == *c2) {
+        cout << "This is the same character.\n";
+    }
+
     delete c2;
 
     cout << "end\n";
 
-    SRD srd;
-    AcidSplash acidSplash;
-    stringstream spellTestStream;
-    acidSplash.save(spellTestStream);
-    string sourceStringPlaceholder;
-    getline(spellTestStream, sourceStringPlaceholder);
-    Spell* loadedSpell = srd.loadSpell(spellTestStream);
+    // AcidSplash acidSplash;
+    // stringstream spellTestStream;
+    // acidSplash.save(spellTestStream);
+    // getline(spellTestStream, sourceStringPlaceholder);
+    // Spell* loadedSpell = SRD_SOURCE.loadSpell(spellTestStream);
 
-    cout << loadedSpell->getName();
+    // cout << loadedSpell->getName();
 
-    delete loadedSpell;
+    // delete loadedSpell;
 
     return 0;
 }

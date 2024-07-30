@@ -5,7 +5,6 @@
 #include "proficiencies.hpp"
 #include "feats.hpp"
 #include "sourceList.hpp"
-#include "sourceBook.hpp"
 
 Character::Character(string name, char stats[6]) {
     loaded = false;
@@ -172,9 +171,11 @@ bool Character::addLanguage(string name, bool speak, bool read, bool write) {
 void Character::addRace(Race* race) {
     if (race == nullptr)
     {
+        cout << "Bad Race Pointer\n";
         return;
     }
-    
+    cout << "Good Race Pointer\n";
+    this->race = race;
     race->addTo(*this);
 }
 
@@ -328,6 +329,11 @@ void Character::save(ostream& outputStream) {
 
     outputStream << level;
 
+    if(race != nullptr) {
+        cout << "Saving Race\n";
+        race->save(outputStream);
+    } else {cout << "No Race Exists\n";}
+
     for(CharacterClass* cClass : classes) {
         cClass->save(outputStream);
     }
@@ -348,11 +354,17 @@ Character* Character::load(istream& inputStream) {
     string sourceString;
 
     // Load Race
+    cout << "Loading Race\n";
+    std::getline(inputStream, sourceString, '\n');
+    Race* loadedRace = SRD_SOURCE.loadRace(inputStream);
+    if(loadedRace == nullptr) {cout << "Loading Race Failed\n";};
+    c->addRace(loadedRace);
 
     // Load Class
+    cout << "Loading Class\n";
     std::getline(inputStream, sourceString, '\n');
     CharacterClass* loadedClass = SRD_SOURCE.loadClass(inputStream);
-    if(loadedClass == nullptr) {cout << "Load Failed\n";}
+    if(loadedClass == nullptr) {cout << "Loading Class Failed\n";}
     c->addClass(loadedClass);
 
     // Load Background

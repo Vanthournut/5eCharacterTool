@@ -99,7 +99,7 @@ HighElf::HighElf(Selecter& selecter) : Elf(selecter)
         throw exception();
     }
     
-    Spell* spell = WIZARD_SPELL_LIST.at(selection[0]);
+    Spell* spell = WIZARD_SPELL_LIST.at(selection[0])->copy();
 
     // Cantrip
     std::shared_ptr<Feat> cantrip (new HighElfCantrip(spell));
@@ -134,6 +134,7 @@ void HighElf::HighElfCantrip::update(Character& character, Selecter& selecter, U
 }
 
 void HighElf::HighElfCantrip::save(ostream& o) {
+    cout << spells.front()->getName() << endl;
     spells.front()->save(o);
 };
 
@@ -149,8 +150,9 @@ void HighElf::HighElfWeapons::update(Character& character, Selecter& selecter, U
 }
 
 void HighElf::save(ostream& o) {
+    cout << "Saving High Elf\n";
     o << SRD_IDENTIFYING_STRING << '\n';
-    o << SRDEnums::Type::Race;
+    // o << SRDEnums::Type::Race;
     o << SRDEnums::Races::HighElf;
     for(auto feat : feats) {
         feat->save(o);
@@ -158,6 +160,7 @@ void HighElf::save(ostream& o) {
 }
 
 Race* HighElf::load(istream& i) {
+    cout << "Loading High Elf\n";
     HighElf* r = new HighElf();
 
     // Ability Score Increase
@@ -165,8 +168,11 @@ Race* HighElf::load(istream& i) {
     r->feats.push_back(highElfAbilityIncrease);
 
     // Cantrip
-    // std::shared_ptr<Feat> cantrip (new HighElfCantrip(spell));
-    // r->feats.push_back(cantrip);
+    string sourceStringPlaceholder;
+    getline(i, sourceStringPlaceholder);
+    Spell* loadedSpell = SRD_SOURCE.loadSpell(i);
+    std::shared_ptr<Feat> cantrip (new HighElfCantrip(loadedSpell));
+    r->feats.push_back(cantrip);
 
     // Weapons
     std::shared_ptr<Feat> weapons (new HighElfWeapons());
@@ -176,5 +182,5 @@ Race* HighElf::load(istream& i) {
     std::shared_ptr<Feat> extraLanguage (new HighElfExtraLanguage());
     r->feats.push_back(extraLanguage);
 
-    return nullptr;
+    return r;
 }
