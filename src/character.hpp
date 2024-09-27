@@ -23,6 +23,7 @@ static char defaultAbilityScores[6] = {10, 10, 10, 10, 10, 10};
 class Character {
 
     private:
+    SourceBookManager sourceBooks;
 
     bool loaded = false; // Used to determine if loaded from file / istream. Required to correctly clean memory of constructed pointers
 
@@ -93,7 +94,12 @@ class Character {
     bool isProficient(WeaponType weaponType) const;
     bool isProficient(SingleWeaponProficiency weaponType) const;
 
+
     void update(Selecter& selecter, UpdateType uType);
+    template <class Predicate>
+    void getSpellList(string listName, vector<Spell*>& returnVector, Predicate predicate = nullptr) const {
+        sourceBooks.getSpellList(listName, returnVector, predicate);
+    };
 
     string toString() const;
 
